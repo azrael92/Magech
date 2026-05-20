@@ -67,11 +67,11 @@ const projects = defineCollection({
   }),
 });
 
-// Overview — the three intro pieces
-const overview = defineCollection({
+// About — the three intro pieces (formerly "overview")
+const about = defineCollection({
   type: 'content',
   schema: universal.extend({
-    section: z.literal('overview'),
+    section: z.literal('about'),
     piece: z.enum(['whoami', 'whyamihere', 'whyarewehere']),
     order: z.number().int().min(1).max(3),
     last_revised: z.coerce.date(),
@@ -82,5 +82,5 @@ export const collections = {
   'negative-space': negativeSpace,
   'research': research,
   'projects': projects,
-  'overview': overview,
+  'about': about,
 };

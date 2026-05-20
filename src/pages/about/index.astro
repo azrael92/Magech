@@ -2,16 +2,18 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const pieces = (await getCollection('overview', ({ data }) => data.status === 'published'))
+const pieces = (await getCollection('about', ({ data }) => data.status === 'published'))
   .sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="Overview · Magech" activeSection="overview">
+<BaseLayout title="About · Magech" activeSection="about">
   <section class="essay">
     <article class="essay-inner">
       {pieces.length === 0 ? (
         <>
-          <p class="essay-meta">§ 04 · Overview</p>
-          <p style="color: var(--parchment-muted);">The three introductory pieces are in the workshop. They require a Discord interview with R.S. before drafting — no synthesis allowed.</p>
+          <p class="essay-meta">About</p>
+          <h2 class="essay-title">In the workshop.</h2>
+          <p style="color: var(--parchment-muted); font-size: 1.075rem; line-height: 1.7;">The three pieces that live here — <em>whoami</em>, <em>whyamihere</em>, <em>whyarewehere</em> — require a Discord interview with Rishi before any agent can draft them. No synthesis allowed. Check back once the interviews are on the books.</p>
+          <p style="color: var(--parchment-faded); font-size: 0.95rem; margin-top: 2rem;">In the meantime: the <a href="/negative-space/">essays</a>, <a href="/research/">research notes</a>, and <a href="/projects/">project pages</a> show the work.</p>
         </>
       ) : (
         pieces.map(async (piece) => {

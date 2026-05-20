@@ -5,20 +5,17 @@ import { getCollection } from 'astro:content';
 const ns = (await getCollection('negative-space', ({ data }) => data.status === 'published'))
   .sort((a, b) => b.data.issue_number - a.data.issue_number);
 const latest = ns[0];
+
+// pull the whoami About piece if published, to surface a teaser on the home page
+const aboutPieces = (await getCollection('about', ({ data }) => data.status === 'published' && data.piece === 'whoami'));
+const whoami = aboutPieces[0] ?? null;
 ---
 <BaseLayout>
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-eyebrow">{latest ? `Issue ${String(latest.data.issue_number).padStart(2, '0')} · Workshop notes` : 'Workshop notes'}</p>
       <h1 class="hero-title">Every technology is <span class="accent">magic</span> until we get used to it.</h1>
-      <p class="hero-sub">A rotary-phone user would have called the camera in your pocket magic. <span class="emphasis">We forgot that fast.</span></p>
-    </div>
-  </section>
-
-  <section class="thesis">
-    <div class="thesis-inner">
-      <p>Acclimating is what lets us live with new technology. It's also what makes us forget how <span class="accent">contingent</span> it is. The iPhone camera took thirty years of sensor R&amp;D that almost didn't pay off. Civilian GPS only exists because a plane got shot down and Reagan declassified the system.</p>
-      <p><span class="accent">Magech</span> is a workshop for tinkering with tech and AI without taking the magic for granted.</p>
+      <p class="hero-sub">A workshop for tinkering with tech and AI without taking the magic for granted.</p>
     </div>
   </section>
 
@@ -33,7 +30,7 @@ const latest = ns[0];
           <div class="card-num">§ 01</div>
           <h3 class="card-title">Negative Space</h3>
           <p class="card-desc">What we're building but not talking about. Monthly essays on the things the industry quietly chose to ignore.</p>
-          <div class="card-meta">{latest ? `Issue ${String(latest.data.issue_number).padStart(2, '0')} → ${latest.data.title}` : 'Coming soon'}</div>
+          <div class="card-meta">{latest ? `Issue ${String(latest.data.issue_number).padStart(2, '0')} → ${latest.data.title}` : 'In the workshop'}</div>
         </a>
         <a href="/research/" class="index-card">
           <div class="card-num">§ 02</div>
@@ -47,13 +44,28 @@ const latest = ns[0];
           <p class="card-desc">OpenClaw, ProductClaw, StreamMesh, Magech itself. Build log for real systems.</p>
           <div class="card-meta">In construction</div>
         </a>
-        <a href="/overview/" class="index-card">
+        <a href="/about/" class="index-card">
           <div class="card-num">§ 04</div>
-          <h3 class="card-title">Overview</h3>
-          <p class="card-desc">Who runs this workshop. Why it's public. What it's adding to the conversation.</p>
+          <h3 class="card-title">About</h3>
+          <p class="card-desc">Who runs this workshop. Why it's public. What it's trying to add to the conversation.</p>
           <div class="card-meta">Three short pieces</div>
         </a>
       </div>
     </div>
+  </section>
+
+  <section class="essay-preview" style="padding: 4rem 0 5rem; background: var(--ink-void); border-top: 1px solid var(--ink-rule); position: relative; z-index: 2;">
+    <article class="essay-inner">
+      <div class="essay-meta">
+        <span>About this workshop</span>
+        <span class="sep">·</span>
+        <span><a href="/about/" style="color: var(--parchment-faded);">Read more →</a></span>
+      </div>
+      {whoami ? (
+        <p style="font-size: 1.075rem; line-height: 1.7; color: var(--parchment);">{whoami.data.title}</p>
+      ) : (
+        <p style="font-size: 1.075rem; line-height: 1.7; color: var(--parchment);">Magech is Rishi Samani's public workshop — editorial essays, research notes, and project writeups on the parts of AI and software the industry isn't talking about. The work is produced by an editorial desk of OpenClaw agents and reviewed by Rishi before anything ships.</p>
+      )}
+    </article>
   </section>
 </BaseLayout>
