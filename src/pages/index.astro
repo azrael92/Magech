@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const ns = (await getCollection('negative-space', ({ data }) => data.status === 'published'))
+  .sort((a, b) => b.data.issue_number - a.data.issue_number);
+const latest = ns[0];
+---
+<BaseLayout>
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">{latest ? `Issue ${String(latest.data.issue_number).padStart(2, '0')} · Workshop notes` : 'Workshop notes'}</p>
+      <h1 class="hero-title">Every technology is <span class="accent">magic</span> until we get used to it.</h1>
+      <p class="hero-sub">A rotary-phone user would have called the camera in your pocket magic. <span class="emphasis">We forgot that fast.</span></p>
+    </div>
+  </section>
+
+  <section class="thesis">
+    <div class="thesis-inner">
+      <p>Acclimating is what lets us live with new technology. It's also what makes us forget how <span class="accent">contingent</span> it is. The iPhone camera took thirty years of sensor R&amp;D that almost didn't pay off. Civilian GPS only exists because a plane got shot down and Reagan declassified the system.</p>
+      <p><span class="accent">Magech</span> is a workshop for tinkering with tech and AI without taking the magic for granted.</p>
+    </div>
+  </section>
+
+  <section class="index">
+    <div class="index-inner">
+      <div class="index-header">
+        <span class="index-label">The Workshop · Sections</span>
+        <span class="index-label">{new Date().toLocaleString('default', { month: 'long' })}, MMXXVI</span>
+      </div>
+      <div class="index-grid">
+        <a href="/negative-space/" class="index-card">
+          <div class="card-num">§ 01</div>
+          <h3 class="card-title">Negative Space</h3>
+          <p class="card-desc">What we're building but not talking about. Monthly essays on the things the industry quietly chose to ignore.</p>
+          <div class="card-meta">{latest ? `Issue ${String(latest.data.issue_number).padStart(2, '0')} → ${latest.data.title}` : 'Coming soon'}</div>
+        </a>
+        <a href="/research/" class="index-card">
+          <div class="card-num">§ 02</div>
+          <h3 class="card-title">Research</h3>
+          <p class="card-desc">Trends I'm tracking. Papers worth reading. The open questions I haven't answered yet.</p>
+          <div class="card-meta">Active threads</div>
+        </a>
+        <a href="/projects/" class="index-card">
+          <div class="card-num">§ 03</div>
+          <h3 class="card-title">Projects</h3>
+          <p class="card-desc">OpenClaw, ProductClaw, StreamMesh, Magech itself. Build log for real systems.</p>
+          <div class="card-meta">In construction</div>
+        </a>
+        <a href="/overview/" class="index-card">
+          <div class="card-num">§ 04</div>
+          <h3 class="card-title">Overview</h3>
+          <p class="card-desc">Who runs this workshop. Why it's public. What it's adding to the conversation.</p>
+          <div class="card-meta">Three short pieces</div>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

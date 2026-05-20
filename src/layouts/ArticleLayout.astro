@@ -1,0 +1,46 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  deck?: string;
+  meta?: string[]; // pre-formatted strings to join with separators
+  activeSection?: 'overview' | 'negative-space' | 'research' | 'projects' | null;
+  opensWith?: 'drop_cap' | 'image' | 'pullquote';
+  authoredBy?: string;
+  reviewedBy?: string | null;
+}
+const { title, deck, meta = [], activeSection = null, opensWith, authoredBy, reviewedBy } = Astro.props;
+const bodyClass = opensWith === 'drop_cap' ? 'essay-body drop-cap' : 'essay-body';
+---
+<BaseLayout title={`${title} · Magech`} activeSection={activeSection}>
+  <section class="essay">
+    <article class="essay-inner">
+      {meta.length > 0 && (
+        <div class="essay-meta">
+          {meta.map((m, i) => (
+            <>
+              {i > 0 && <span class="sep">·</span>}
+              <span>{m}</span>
+            </>
+          ))}
+        </div>
+      )}
+      <h1 class="essay-title">{title}</h1>
+      {deck && <p class="essay-deck">{deck}</p>}
+      <div class={bodyClass}>
+        <slot />
+      </div>
+      {(authoredBy || reviewedBy) && (
+        <hr />
+      )}
+      {(authoredBy || reviewedBy) && (
+        <div class="essay-meta" style="margin: 0;">
+          {authoredBy && <span>Authored by {authoredBy}</span>}
+          {authoredBy && reviewedBy && <span class="sep">·</span>}
+          {reviewedBy && <span>Reviewed by {reviewedBy === 'rishi' ? 'R.S.' : reviewedBy}</span>}
+        </div>
+      )}
+    </article>
+  </section>
+</BaseLayout>

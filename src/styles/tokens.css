@@ -1,0 +1,275 @@
+/* ============================================================
+   MAGECH DESIGN TOKENS — v3 (LOCKED)
+   Dresden, not Harry Potter.
+   Amethyst primary, brass secondary, brighter parchment.
+   "Every technology is magic until we get used to it."
+   ============================================================ */
+
+:root {
+  /* ---------- INK (backgrounds) ---------- */
+  --ink-void:        #0a0908;
+  --ink-deep:        #12100e;
+  --ink-pressed:     #1a1714;
+  --ink-raised:      #221d18;
+  --ink-rule:        #2d2620;
+
+  /* ---------- PARCHMENT (text) — brighter for contrast ---------- */
+  --parchment:       #faf3e0;       /* primary text — bumped from #f0e6d2 */
+  --parchment-muted: #c8bda5;
+  --parchment-faded: #8c8270;
+  --parchment-dim:   #4a4439;
+
+  /* ---------- AMETHYST (primary accent) ---------- */
+  --amethyst-deep:   #4a3a6f;       /* low-emphasis purple (eyebrow text) */
+  --amethyst:        #7a6cb0;       /* primary accent (hero word, links) */
+  --amethyst-bright: #9d8fd0;       /* hover state, highlight */
+
+  /* ---------- BRASS (secondary accent — used SPARINGLY) ---------- */
+  --brass-aged:      #9c7c3e;
+  --brass-dim:       #6f5828;
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-body:    'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', 'Menlo', monospace;
+
+  /* SOFT 30 = least playful. opsz tuned per size. */
+  --fraunces-display:  "SOFT" 30, "opsz" 144;
+  --fraunces-headline: "SOFT" 30, "opsz" 72;
+  --fraunces-body:     "SOFT" 30, "opsz" 18;
+  --fraunces-caption:  "SOFT" 30, "opsz" 14;
+
+  --text-xs:    0.75rem;
+  --text-sm:    0.875rem;
+  --text-base:  1rem;
+  --text-lg:    1.125rem;
+  --text-xl:    1.35rem;
+  --text-2xl:   1.625rem;
+  --text-3xl:   2rem;
+  --text-4xl:   2.5rem;
+  --text-5xl:   3.25rem;
+  --text-display: 5rem;
+
+  --leading-tight:   1.05;
+  --leading-reading: 1.65;
+
+  --tracking-tight:   -0.025em;
+  --tracking-widest:  0.22em;
+
+  /* ---------- SPACING ---------- */
+  --space-2:  0.5rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  --col-reading: 38rem;
+  --col-wide:    64rem;
+
+  /* ---------- MOTION ---------- */
+  --ease-ink:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-reveal:  cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-quick:   200ms;
+  --dur-normal:  400ms;
+
+  --grain-opacity: 0.05;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--ink-void);
+  color: var(--parchment);
+  font-family: var(--font-body);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: var(--ink-deep);
+  font-family: var(--font-body);
+  font-variation-settings: var(--fraunces-body);
+  font-weight: 400;
+  line-height: var(--leading-reading);
+  color: var(--parchment);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Atmospheric grain — reduced opacity, doesn't fight text */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+
+::selection {
+  background: var(--amethyst);
+  color: var(--ink-deep);
+}
+
+/* ============================================================
+   EMBER — cigarette coal, amethyst-tinted
+   ============================================================ */
+
+.ember {
+  position: fixed;
+  top: 14vh;
+  right: 7vw;
+  width: 3px;
+  height: 3px;
+  background: var(--amethyst);
+  border-radius: 50%;
+  box-shadow: 0 0 4px 1px var(--amethyst),
+              0 0 16px 4px rgba(122, 108, 176, 0.3);
+  animation: ember 7s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes ember {
+  0%, 100% { opacity: 0.9; }
+  30%      { opacity: 0.7; }
+  60%      { opacity: 1; }
+  85%      { opacity: 0.65; }
+}
+
+/* ============================================================
+   TYPOGRAPHY — weight bumped 400 → 500 for display sizes
+   ============================================================ */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  color: var(--parchment);
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--text-5xl);
+  font-weight: 500;
+  font-variation-settings: var(--fraunces-display);
+}
+h2 { font-size: var(--text-3xl); font-variation-settings: var(--fraunces-headline); }
+h3 { font-size: var(--text-2xl); font-variation-settings: var(--fraunces-headline); }
+h4 { font-size: var(--text-xl); font-weight: 600; font-variation-settings: var(--fraunces-headline); }
+
+p {
+  margin: 0 0 var(--space-6) 0;
+  max-width: var(--col-reading);
+  font-variation-settings: var(--fraunces-body);
+}
+
+a {
+  color: var(--amethyst-bright);
+  text-decoration: underline;
+  text-decoration-color: rgba(157, 143, 208, 0.3);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur-quick) var(--ease-ink),
+              text-decoration-color var(--dur-quick) var(--ease-ink);
+}
+a:hover {
+  color: var(--amethyst);
+  text-decoration-color: var(--amethyst);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--amethyst-bright);
+  background: var(--ink-pressed);
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+  border: 1px solid var(--ink-rule);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--parchment-faded);
+  font-weight: 500;
+}
+
+/* Amethyst accent within prose. Color only. No italic. */
+.accent { color: var(--amethyst); }
+
+/* Brass — for ornament numbers, workshop markers, very sparing use */
+.accent-brass { color: var(--brass-aged); }
+
+/* ============================================================
+   WORKSHOP MARKER
+   ============================================================ */
+
+.marker {
+  border: 0;
+  margin: var(--space-12) 0;
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.marker::before,
+.marker::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ink-rule);
+}
+.marker-dots {
+  font-family: var(--font-mono);
+  color: var(--brass-dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.4em;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--col-wide);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+.container--reading { max-width: var(--col-reading); }
+
+/* ============================================================
+   FOCUS
+   ============================================================ */
+
+*:focus-visible {
+  outline: 2px solid var(--amethyst);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

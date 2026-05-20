@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const pieces = (await getCollection('overview', ({ data }) => data.status === 'published'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Overview · Magech" activeSection="overview">
+  <section class="essay">
+    <article class="essay-inner">
+      {pieces.length === 0 ? (
+        <>
+          <p class="essay-meta">§ 04 · Overview</p>
+          <p style="color: var(--parchment-muted);">The three introductory pieces are in the workshop. They require a Discord interview with R.S. before drafting — no synthesis allowed.</p>
+        </>
+      ) : (
+        pieces.map(async (piece) => {
+          const { Content } = await piece.render();
+          return (
+            <>
+              <div class="essay-meta">
+                <span>§ {String(piece.data.order).padStart(2, '0')} · {piece.data.piece}</span>
+                <span class="sep">·</span>
+                <span>Last revised {piece.data.last_revised.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+              </div>
+              <h2 class="essay-title">{piece.data.title}</h2>
+              <div class="essay-body">
+                <Content />
+              </div>
+              <hr />
+            </>
+          );
+        })
+      )}
+    </article>
+  </section>
+</BaseLayout>

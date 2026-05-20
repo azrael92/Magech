@@ -1,0 +1,30 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => data.status === 'published');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+const meta = [
+  `Project · ${project.data.project_status}`,
+  project.data.stack.length ? project.data.stack.slice(0, 3).join(' · ') : null,
+  project.data.published ? `Published ${project.data.published.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}` : null,
+].filter(Boolean) as string[];
+---
+<ArticleLayout
+  title={project.data.project_name}
+  deck={project.data.tagline}
+  meta={meta}
+  activeSection="projects"
+  authoredBy={project.data.authored_by}
+  reviewedBy={project.data.reviewed_by}
+>
+  <Content />
+</ArticleLayout>

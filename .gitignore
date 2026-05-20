@@ -1,0 +1,33 @@
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Local env files
+.env
+.env.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Agent runtime (gitignored — these coordinate between agents but aren't site content)
+briefs/
+feedback/
+
+# Misc working files
+screenshot*.png
+*.tmp
+
+# Editorial desk working state — not shipped to site
+briefs/*
+!briefs/.gitkeep
+feedback/*
+!feedback/.gitkeep

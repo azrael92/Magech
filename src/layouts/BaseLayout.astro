@@ -1,0 +1,58 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  activeSection?: 'overview' | 'negative-space' | 'research' | 'projects' | 'learning' | null;
+}
+const {
+  title = 'Magech — Every technology is magic until we get used to it',
+  description = 'A workshop for tinkering with tech and AI without taking the magic for granted.',
+  activeSection = null,
+} = Astro.props;
+import '../styles/tokens.css';
+import '../styles/site.css';
+---
+<!doctype html>
+<html lang="en" style="background:#12100e;color-scheme:dark;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#12100e" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content={description} />
+  <link rel="canonical" href={Astro.url.href} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,30..100&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <title>{title}</title>
+</head>
+<body style="background:#12100e;background-color:#12100e;">
+  <div class="ember"></div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="wordmark">Mag<span class="accent">ech</span><span class="suffix">.ai</span></a>
+      <div class="nav-links">
+        <a href="/overview/" class={`nav-link${activeSection === 'overview' ? ' active' : ''}`}>Overview</a>
+        <a href="/negative-space/" class={`nav-link${activeSection === 'negative-space' ? ' active' : ''}`}>Negative Space</a>
+        <a href="/research/" class={`nav-link${activeSection === 'research' ? ' active' : ''}`}>Research</a>
+        <a href="/projects/" class={`nav-link${activeSection === 'projects' ? ' active' : ''}`}>Projects</a>
+      </div>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-mark">Magech, a workshop. Made by R.S. & the OpenClaw agents.</span>
+      <div class="footer-meta">
+        <span>magech.ai</span>
+        <span>MMXXVI</span>
+        <span>v.0.1.0</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

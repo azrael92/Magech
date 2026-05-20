@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#12100e;color-scheme:dark;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#12100e">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Magech — Every technology is magic until we get used to it</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,30..100&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  color-scheme: dark;
+  --ink-void:        #0a0908;
+  --ink-deep:        #12100e;
+  --ink-pressed:     #1a1714;
+  --ink-raised:      #221d18;
+  --ink-rule:        #2d2620;
+  --parchment:       #faf3e0;
+  --parchment-muted: #c8bda5;
+  --parchment-faded: #8c8270;
+  --parchment-dim:   #4a4439;
+  --amethyst-deep:   #4a3a6f;
+  --amethyst:        #7a6cb0;
+  --amethyst-bright: #9d8fd0;
+  --brass-aged:      #9c7c3e;
+  --brass-dim:       #6f5828;
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-body:    'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-mono:    'JetBrains Mono', 'Menlo', monospace;
+  --fraunces-display:  "SOFT" 30, "opsz" 144;
+  --fraunces-headline: "SOFT" 30, "opsz" 72;
+  --fraunces-body:     "SOFT" 30, "opsz" 18;
+  --ease-ink:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-reveal:  cubic-bezier(0.22, 1, 0.36, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  background: #12100e !important;
+  background-color: #12100e !important;
+  color: var(--parchment);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: #12100e !important;
+  background-color: #12100e !important;
+  color: var(--parchment);
+  font-family: var(--font-body);
+  font-variation-settings: var(--fraunces-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+.ember {
+  position: fixed;
+  top: 14vh;
+  right: 7vw;
+  width: 3px;
+  height: 3px;
+  background: var(--amethyst);
+  border-radius: 50%;
+  box-shadow: 0 0 4px 1px var(--amethyst), 0 0 16px 4px rgba(122, 108, 176, 0.3);
+  animation: ember 7s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+@keyframes ember {
+  0%, 100% { opacity: 0.9; }
+  30% { opacity: 0.7; }
+  60% { opacity: 1; }
+  85% { opacity: 0.65; }
+}
+::selection { background: var(--amethyst); color: var(--ink-deep); }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 1.25rem 0;
+  background: rgba(18, 16, 14, 0.92);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  border-bottom: 1px solid var(--ink-rule);
+}
+.nav-inner {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--parchment);
+  text-decoration: none;
+  font-variation-settings: "SOFT" 30, "opsz" 14;
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+.wordmark .accent { color: var(--amethyst); }
+.wordmark .suffix {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--parchment-faded);
+  letter-spacing: 0.1em;
+  margin-left: 0.15em;
+  vertical-align: 0.5em;
+  font-weight: 400;
+}
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--parchment-faded);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-ink);
+  position: relative;
+  padding: 0.25rem 0;
+  white-space: nowrap;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1px;
+  background: var(--amethyst);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-ink);
+}
+.nav-link:hover { color: var(--parchment); }
+.nav-link:hover::after { transform: scaleX(1); }
+.nav-link.active { color: var(--amethyst); }
+
+/* ============================================================
+   HERO — tight, scannable
+   ============================================================ */
+.hero { padding: 7rem 0 4rem; position: relative; z-index: 2; }
+.hero-inner { max-width: 64rem; margin: 0 auto; padding: 0 2rem; }
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--amethyst-deep);
+  margin: 0 0 1.75rem 0;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--parchment);
+  margin: 0 0 2rem 0;
+  max-width: 22ch;
+  font-variation-settings: var(--fraunces-display);
+}
+.hero-title .accent { color: var(--amethyst); font-weight: 500; }
+.hero-sub {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--parchment-muted);
+  max-width: 38rem;
+  margin: 0;
+  font-variation-settings: var(--fraunces-body);
+  font-weight: 400;
+}
+.hero-sub .emphasis { color: var(--parchment); }
+
+/* ============================================================
+   THESIS — longer paragraph below hero, scrollers find this
+   ============================================================ */
+.thesis {
+  padding: 1rem 0 6rem;
+  position: relative;
+  z-index: 2;
+}
+.thesis-inner {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.thesis p {
+  font-size: 1.075rem;
+  line-height: 1.7;
+  color: var(--parchment);
+  margin: 0 0 1.5rem 0;
+  font-variation-settings: var(--fraunces-body);
+}
+.thesis p:last-child {
+  color: var(--parchment-muted);
+  font-size: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ink-rule);
+  margin-top: 0.5rem;
+}
+.thesis .accent { color: var(--amethyst); }
+
+/* ============================================================
+   INDEX
+   ============================================================ */
+.index {
+  padding: 3rem 0 7rem;
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--ink-rule);
+}
+.index-inner { max-width: 64rem; margin: 0 auto; padding: 0 2rem; }
+.index-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--ink-rule);
+  padding-bottom: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.index-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--parchment-faded);
+}
+.index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.index-card {
+  display: block;
+  text-decoration: none;
+  padding: 2rem 1.75rem;
+  border: 1px solid var(--ink-rule);
+  background: var(--ink-pressed);
+  border-radius: 2px;
+  transition: all 0.4s var(--ease-ink);
+  position: relative;
+  overflow: hidden;
+}
+.index-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--amethyst);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-ink);
+}
+.index-card:hover {
+  background: var(--ink-raised);
+  border-color: var(--amethyst-deep);
+  transform: translateY(-2px);
+}
+.index-card:hover::before { transform: scaleX(1); }
+.card-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--brass-aged);
+  margin-bottom: 0.75rem;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--parchment);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.01em;
+  font-variation-settings: "SOFT" 30, "opsz" 24;
+}
+.card-desc {
+  font-size: 0.95rem;
+  color: var(--parchment-muted);
+  line-height: 1.55;
+  margin: 0;
+  font-variation-settings: var(--fraunces-body);
+}
+.card-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--parchment-faded);
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ink-rule);
+}
+
+.essay-preview {
+  padding: 5rem 0;
+  background: var(--ink-void);
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--ink-rule);
+  border-bottom: 1px solid var(--ink-rule);
+}
+.essay-inner { max-width: 38rem; margin: 0 auto; padding: 0 2rem; }
+.essay-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--parchment-faded);
+  margin-bottom: 1.75rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.essay-meta .sep { color: var(--ink-rule); }
+.essay-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--parchment);
+  margin: 0 0 2rem 0;
+  font-variation-settings: "SOFT" 30, "opsz" 96;
+  max-width: 22ch;
+}
+.essay-body p {
+  font-size: 1.075rem;
+  line-height: 1.7;
+  color: var(--parchment);
+  margin: 0 0 1.5rem 0;
+  font-variation-settings: var(--fraunces-body);
+}
+.marker {
+  border: 0;
+  margin: 2.5rem 0;
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.marker::before, .marker::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ink-rule);
+}
+.marker-dots {
+  font-family: var(--font-mono);
+  color: var(--brass-dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.4em;
+}
+
+.footer { padding: 3.5rem 0 2.5rem; position: relative; z-index: 2; }
+.footer-inner {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px solid var(--ink-rule);
+  padding-top: 2rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.footer-mark {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--parchment-faded);
+  font-variation-settings: var(--fraunces-body);
+}
+.footer-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+  display: flex;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .nav-inner {
+    padding: 0 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .nav-links { gap: 1.25rem; justify-content: flex-start; }
+  .nav-link { font-size: 0.65rem; letter-spacing: 0.18em; }
+  .hero { padding: 3.5rem 0 2rem; }
+  .hero-inner, .index-inner, .footer-inner { padding: 0 1.25rem; }
+  .hero-title { font-size: clamp(2rem, 9vw, 3rem); max-width: 100%; }
+  .hero-sub { font-size: 1.1rem; }
+  .thesis-inner, .essay-inner { padding: 0 1.25rem; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+
+<body style="background:#12100e;background-color:#12100e;">
+
+<div class="ember"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="wordmark">Mag<span class="accent">ech</span><span class="suffix">.ai</span></a>
+    <div class="nav-links">
+      <a href="#" class="nav-link active">Overview</a>
+      <a href="#" class="nav-link">Negative Space</a>
+      <a href="#" class="nav-link">Research</a>
+      <a href="#" class="nav-link">Projects</a>
+      <a href="#" class="nav-link">Learning</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Issue 01 · Workshop notes</p>
+    <h1 class="hero-title">Every technology is <span class="accent">magic</span> until we get used to it.</h1>
+    <p class="hero-sub">A rotary-phone user would have called the camera in your pocket magic. <span class="emphasis">We forgot that fast.</span></p>
+  </div>
+</section>
+
+<section class="thesis">
+  <div class="thesis-inner">
+    <p>Acclimating is what lets us live with new technology. It's also what makes us forget how <span class="accent">contingent</span> it is. The iPhone camera took thirty years of sensor R&amp;D that almost didn't pay off. Civilian GPS only exists because a plane got shot down and Reagan declassified the system.</p>
+    <p><span class="accent">Magech</span> is a workshop for tinkering with tech and AI without taking the magic for granted.</p>
+  </div>
+</section>
+
+<section class="index">
+  <div class="index-inner">
+    <div class="index-header">
+      <span class="index-label">The Workshop · Sections</span>
+      <span class="index-label">May, MMXXVI</span>
+    </div>
+    <div class="index-grid">
+      <a href="#" class="index-card">
+        <div class="card-num">§ 01</div>
+        <h3 class="card-title">Negative Space</h3>
+        <p class="card-desc">What we're building but not talking about. Monthly essays on the things the industry quietly chose to ignore.</p>
+        <div class="card-meta">Issue 01 → Faceless</div>
+      </a>
+      <a href="#" class="index-card">
+        <div class="card-num">§ 02</div>
+        <h3 class="card-title">Research</h3>
+        <p class="card-desc">Trends I'm tracking. Papers worth reading. The open questions I haven't answered yet.</p>
+        <div class="card-meta">4 active threads</div>
+      </a>
+      <a href="#" class="index-card">
+        <div class="card-num">§ 03</div>
+        <h3 class="card-title">Projects</h3>
+        <p class="card-desc">StreamMesh, the OpenClaw publishing firm, ePubs that broke and the tutorials that lied about it.</p>
+        <div class="card-meta">In construction</div>
+      </a>
+      <a href="#" class="index-card">
+        <div class="card-num">§ 04</div>
+        <h3 class="card-title">Learning</h3>
+        <p class="card-desc">Practice probability the way the table actually plays it. Hold'em trainer, 3 to 10 seats, client-side.</p>
+        <div class="card-meta">Coming soon</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="essay-preview">
+  <article class="essay-inner">
+    <div class="essay-meta">
+      <span>Negative Space · No. 01</span>
+      <span class="sep">·</span>
+      <span>~14 min read</span>
+      <span class="sep">·</span>
+      <span>Published 19 May 2026</span>
+    </div>
+    <h2 class="essay-title">Why doesn't your AI have a face?</h2>
+    <div class="essay-body">
+      <p>There's a strange asymmetry in the current generation of artificial intelligence products. We have models that can hold conversations more fluently than most humans, that can write poetry and pass the bar exam and reason about quantum mechanics in real time — and almost none of them have a face. They don't blink. They don't look at the person they're talking to. They don't have a body, or a desk, or a room. They are voices in a void, text in a rectangle, and we have all collectively decided that this is normal.</p>
+      <p>This wasn't always the assumption. Clippy had eyebrows that arched when he was confused. Cortana had a silhouette and a posture. The Mac Plus had a smiling computer that greeted you when it booted. Inspector Gadget — a children's show from 1983 — gave its AI a niece who could code and a dog who could think, and they all had bodies.</p>
+      <p style="color: var(--parchment-faded);">— continues —</p>
+    </div>
+    <div class="marker"><span class="marker-dots">···</span></div>
+    <div class="essay-meta" style="margin: 0;">
+      <span>Issued by Negative Space Agent</span>
+      <span class="sep">·</span>
+      <span>Reviewed by R.S.</span>
+    </div>
+  </article>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-mark">Magech, a workshop. Made by R.S. & the OpenClaw agents.</span>
+    <div class="footer-meta">
+      <span>magech.ai</span>
+      <span>MMXXVI</span>
+      <span>v.0.3.2</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

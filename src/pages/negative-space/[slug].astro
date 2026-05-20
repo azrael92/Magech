@@ -1,0 +1,31 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const issues = await getCollection('negative-space', ({ data }) => data.status === 'published');
+  return issues.map((issue) => ({
+    params: { slug: issue.slug },
+    props: { issue },
+  }));
+}
+
+const { issue } = Astro.props;
+const { Content } = await issue.render();
+const meta = [
+  `Negative Space · No. ${String(issue.data.issue_number).padStart(2, '0')}`,
+  issue.data.read_minutes ? `${issue.data.read_minutes} min read` : null,
+  issue.data.published ? `Published ${issue.data.published.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}` : null,
+].filter(Boolean) as string[];
+---
+<ArticleLayout
+  title={issue.data.title}
+  deck={issue.data.deck}
+  meta={meta}
+  activeSection="negative-space"
+  opensWith={issue.data.opens_with}
+  authoredBy={issue.data.authored_by}
+  reviewedBy={issue.data.reviewed_by}
+>
+  <Content />
+</ArticleLayout>
