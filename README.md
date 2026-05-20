@@ -1,0 +1,2 @@
+# Magech
+Magech.ai repo
