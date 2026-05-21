@@ -58,3 +58,4 @@ Append-only. Source of truth for every state transition. Most recent at the bott
 2026-05-21T02:20:00Z | embodiment-gap-in-commercial-ai | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
 2026-05-21T15:00:00Z | agent-reliability-tool-selection-degradation | staged-for-rishi → retired | desk-editor | genre mismatch — Research section is for operational-data-grounded entries from Sam's own systems, not literature reviews on public papers
 2026-05-21T15:00:00Z | embodiment-gap-in-commercial-ai | staged-for-rishi → retired | desk-editor | genre mismatch — same as above
+2026-05-21T15:10:00Z | press-workshop | _kickback → fact-checked | desk-editor | EDITOR OVERRIDE: bypass Skeptic re-review (3rd kickback was Skeptic-counting-error not substantive); Copy Desk owns em-dash fix-in-place per its role spec; Sam approved option B
