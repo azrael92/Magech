@@ -11,10 +11,10 @@ revision: 0
 tags: [multi-agent, orchestration, anthropic-sdk, bare-metal, claude, infrastructure]
 project_name: OpenClaw
 project_status: active
-tagline: 22 Claude agents on a PowerEdge R620 — filesystem-coordinated substrate running Vade Corp and the Magech editorial desk
-problem: Running tool-using AI agents with distinct personas at any volume above a handful of sessions collides with two hard constraints simultaneously: the managed API billing model becomes prohibitive, and OpenClaw's built-in text-only backend strips tool use. Neither path alone works.
-approach: A Node.js wrapper around the Anthropic Agent SDK bridges the gap, using a single env override to bill to Sam's Max subscription while preserving full tool loops. Agents coordinate through the filesystem rather than a message bus — shared-brain for cross-agent knowledge, per-agent workspace files for identity, an append-only state log as the coordination ledger.
-stack: [Node.js, "Anthropic Agent SDK", Discord, Unraid, Docker, "Claude Sonnet 4.6", "Claude Opus 4.6"]
+tagline: "22 Claude agents on a PowerEdge R620 — filesystem-coordinated substrate running Vade Corp and the Magech editorial desk"
+problem: "Running tool-using AI agents with distinct personas at any volume above a handful of sessions collides with two hard constraints simultaneously — the managed API billing model becomes prohibitive, and OpenClaw's built-in text-only backend strips tool use. Neither path alone works."
+approach: "A Node.js wrapper around the Anthropic Agent SDK bridges the gap, using a single env override to bill to Sam's Max subscription while preserving full tool loops. Agents coordinate through the filesystem rather than a message bus — shared-brain for cross-agent knowledge, per-agent workspace files for identity, an append-only state log as the coordination ledger."
+stack: ["Node.js", "Anthropic Agent SDK", "Discord", "Unraid", "Docker", "Claude Sonnet 4.6", "Claude Opus 4.6"]
 metrics:
   - label: "Active agents (openclaw.json agents.list count)"
     value: "22 (13 Vade Corp + 9 Magech editorial desk)"
