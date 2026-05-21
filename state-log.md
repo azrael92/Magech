@@ -22,3 +22,8 @@ Append-only. Source of truth for every state transition. Most recent at the bott
 
 <!-- transitions begin below -->
 2026-05-20T17:00:00Z | _system | _bootstrap → _ready | desk-production | state-log initialized
+2026-05-20T19:30:00Z | openclaw | _new → drafted | desk-projects-writer | seed-content commission
+2026-05-20T19:30:00Z | magech-itself | _new → drafted | desk-projects-writer | seed-content commission
+2026-05-20T19:46:00Z | agent-reliability-tool-selection-degradation | _new → drafted | desk-research-writer | seed-content commission (Phase 1)
+2026-05-20T19:46:00Z | embodiment-gap-in-commercial-ai | _new → drafted | desk-research-writer | seed-content commission (Phase 1)
+2026-05-20T19:46:30Z | agency-benchmarks-the-missing-iq-equivalent | _commissioned → _failed | desk-research-writer | wrapper CLI hang at 480s no-output timeout; re-dispatch deferred
