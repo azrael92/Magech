@@ -2,7 +2,7 @@
 title: OpenClaw
 slug: openclaw
 section: projects
-status: draft
+status: retired
 authored_by: desk-projects-writer
 reviewed_by: null
 created: 2026-05-20T19:30:00Z
