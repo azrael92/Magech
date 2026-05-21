@@ -40,6 +40,7 @@ Append-only. Source of truth for every state transition. Most recent at the bott
 2026-05-20T18:38:00Z | press-workshop | drafted → _kickback | desk-skeptic | r1 re-review: all r0 priority fixes resolved; em-dash count 10 vs. style-guide limit of 1-2 (missed in r0 review; not introduced by revision)
 2026-05-20T18:40:00Z | agent-reliability-tool-selection-degradation | drafted → critiqued | desk-skeptic | r2 re-review: em-dash count 4→1; all four lenses pass; advance to fact-checker
 2026-05-20T18:52:00Z | press-workshop | drafted → _kickback | desk-skeptic | r2 re-review: Writer executed r1 fixes correctly; r1 em-dash count was incomplete (10 named, 17 actual); escalates to Editor per 3-kickback rule
+2026-05-21T09:59:00Z | whoami | drafted → _kickback | desk-skeptic | em-dash count 4 (limit 1-2); 'constant message stream' hardens transcript preference to identity claim; 'keeps pulling me back' adds inference not in source
 2026-05-20T18:27:00Z | press-workshop | _new → drafted | desk-projects-writer | seed-content commission (Press scope, take 2)
 2026-05-20T20:55:00Z | agent-reliability-tool-selection-degradation | _kickback → drafted | desk-research-writer | revision r1 per skeptic.md
 2026-05-20T20:55:00Z | embodiment-gap-in-commercial-ai | _kickback → drafted | desk-research-writer | revision r1 per skeptic.md
@@ -54,8 +55,18 @@ Append-only. Source of truth for every state transition. Most recent at the bott
 2026-05-21T02:05:00Z | agent-reliability-tool-selection-degradation | fact-checked → copy-edited | desk-copy-desk | FIXED IN PLACE: smart-quote conversion on "Patel et al. 2025"; all seven checks passed
 2026-05-21T02:10:00Z | embodiment-gap-in-commercial-ai | fact-checked → _kickback | desk-copy-desk | em-dash count 7 in body exceeds limit of 3; Writer must restructure
 2026-05-21T02:18:00Z | embodiment-gap-in-commercial-ai | drafted → copy-edited | desk-copy-desk | r3 re-review: em-dash count 2, smart quotes confirmed; all r2 items resolved; PASS
+2026-05-21T13:30:00Z | press-workshop | fact-checked → copy-edited | desk-copy-desk | FIXED IN PLACE: em-dashes 18→2, smart-quote conversion, revision bumped; two minor schema notes for Editor
 2026-05-21T02:10:00Z | agent-reliability-tool-selection-degradation | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
 2026-05-21T02:20:00Z | embodiment-gap-in-commercial-ai | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
 2026-05-21T15:00:00Z | agent-reliability-tool-selection-degradation | staged-for-rishi → retired | desk-editor | genre mismatch — Research section is for operational-data-grounded entries from Sam's own systems, not literature reviews on public papers
 2026-05-21T15:00:00Z | embodiment-gap-in-commercial-ai | staged-for-rishi → retired | desk-editor | genre mismatch — same as above
 2026-05-21T15:10:00Z | press-workshop | _kickback → fact-checked | desk-editor | EDITOR OVERRIDE: bypass Skeptic re-review (3rd kickback was Skeptic-counting-error not substantive); Copy Desk owns em-dash fix-in-place per its role spec; Sam approved option B
+2026-05-21T15:30:00Z | openclaw | _new → drafted | desk-projects-writer | Projects re-commission (headline piece, operational-data-grounded)
+2026-05-21T16:00:00Z | whoami | _new → _commissioned | desk-editor | interview transcript captured; dispatching Overview Writer
+2026-05-21T16:58:00Z | whoami | _commissioned → drafted | desk-overview-writer | edited from 2026-05-21 interview transcript
+2026-05-21T17:05:00Z | whoami | _kickback → drafted | desk-overview-writer | r1 — 3 Skeptic priority fixes (em-dash, preference framing, trading narrative)
+2026-05-21T18:35:00Z | whoami | drafted → critiqued | desk-skeptic | r1 re-review: all 3 priority fixes landed; em-dash count 1; fidelity clean; advance to fact-checker
+2026-05-21T18:45:00Z | whoami | critiqued → fact-checked | desk-fact-checker | biographical piece; no external claims present; all content transcript-traced or self-reported
+2026-05-21T19:41:00Z | whoami | fact-checked → copy-edited | desk-copy-desk | FIXED IN PLACE: em-dash spacing, revision bumped; schema-doc enum note for Editor (section "about" vs "overview")
+2026-05-21T19:45:00Z | whoami | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
+2026-05-21T19:50:00Z | whoami | staged-for-rishi → published | desk-editor | Sam ✅ ship; deploying
