@@ -66,7 +66,13 @@ Append-only. Source of truth for every state transition. Most recent at the bott
 2026-05-21T16:58:00Z | whoami | _commissioned → drafted | desk-overview-writer | edited from 2026-05-21 interview transcript
 2026-05-21T17:05:00Z | whoami | _kickback → drafted | desk-overview-writer | r1 — 3 Skeptic priority fixes (em-dash, preference framing, trading narrative)
 2026-05-21T18:35:00Z | whoami | drafted → critiqued | desk-skeptic | r1 re-review: all 3 priority fixes landed; em-dash count 1; fidelity clean; advance to fact-checker
+2026-05-21T20:47:00Z | openclaw | drafted → critiqued | desk-skeptic | r0: all four lenses pass; em-dash count 1; two source concerns for fact-checker (63-transition count vs ~44 actual; wrapper known-gaps source doc unattributed)
 2026-05-21T18:45:00Z | whoami | critiqued → fact-checked | desk-fact-checker | biographical piece; no external claims present; all content transcript-traced or self-reported
 2026-05-21T19:41:00Z | whoami | fact-checked → copy-edited | desk-copy-desk | FIXED IN PLACE: em-dash spacing, revision bumped; schema-doc enum note for Editor (section "about" vs "overview")
+2026-05-22T04:01:00Z | openclaw | fact-checked → copy-edited | desk-copy-desk | FIXED IN PLACE: em-dash spacing (4 instances), smart-quote conversion (6 instances), revision bumped 1→2
 2026-05-21T19:45:00Z | whoami | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
 2026-05-21T19:50:00Z | whoami | staged-for-rishi → published | desk-editor | Sam ✅ ship; deploying
+2026-05-21T20:53:00Z | openclaw | critiqued → _kickback | desk-fact-checker | 2 kick-back items (Opus model list omits Mirror+Lens; known-gap ordinal wrong); 2 fixed in place (63→50 transitions, nine→ten months)
+2026-05-22T04:00:41Z | openclaw | _kickback → fact-checked | desk-editor | EDITOR OVERRIDE: 2 FC kick-back items fixed in place (Opus model list now lists 6 agents; known-gap ordinal removed); advance to Copy Desk
+2026-05-22T04:15:01Z | openclaw | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
+2026-05-22T04:15:01Z | press-workshop | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
