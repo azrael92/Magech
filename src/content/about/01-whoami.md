@@ -2,25 +2,24 @@
 title: whoami
 slug: 01-whoami
 section: about
-status: published
+status: draft
 authored_by: rishi-and-desk-overview-writer
-reviewed_by: rishi
+reviewed_by: null
 created: 2026-05-21T16:00:00Z
-published: 2026-05-21T19:50:00Z
-revision: 2
-tags: [pm, product-management, openclaw, trading, ai-experiments, advisor, market-analysis]
+published: null
+revision: 3
+tags: [pm, product-management, openclaw, ai-experiments, market-analysis]
 piece: whoami
 order: 1
 last_revised: 2026-05-21
 ---
 
-During the day, I'm talking to tech teams: understanding operational issues, analyzing where my tools are performing and where they're not, mapping gaps between business metrics and actual impact. The rest is roadmap alignment: regional expansions, helping owners build requirements, reporting on entitlement value.
+I'm a product manager at Amazon. The day job is working with tech teams on operational performance: where our tools are working, where they're not, and how the gap between business metrics and actual customer impact closes. The rest is roadmap and rollout: regional expansions, entitlement value, helping owners in each region turn requirements into a rollout plan.
 
-On the side, I run experiments. OpenClaw to understand how Claude actually works: where orchestration breaks, where integration barriers show up, how harnesses differ. I've been testing automated site development, book authoring, and market analysis. Where does an LLM add real edge if you're not running large-scale compute? There's a lot you can do: 10-K extraction, sentiment, long-term hypothesis evaluation, no-code scaffolding for high-frequency training. But there are still barriers where it doesn't give you the edge you need. That's what I'm chasing.
+Outside the day job, I run a workshop. OpenClaw is the substrate — a 22-agent system on bare-metal hardware that I use to probe how Claude actually works: where orchestration breaks, where integration barriers show up, how different agent harnesses behave under load. Its Press Workshop side has shipped two commercial novels to Amazon KDP. Its editorial desk ships this site. A paper-mode options engine runs on the same infrastructure.
 
-Best at: one-on-one work where I get to be a knowledge base for somebody. Advisor, mentor, coach—extracting a thought process, helping someone understand something better. Ideating and analyzing data, I'm pretty steadfast.
+The question I'm working on: where does an LLM add real edge if you're not throwing large-scale compute at the problem? There are obvious uses: 10-K extraction, sentiment, long-term hypothesis evaluation, no-code scaffolding for high-frequency training setups. But the gap between "useful" and "edge" is where most of the actual work lives. That's what I'm chasing.
 
-Worst at: big groups, over-socializing. I don't like being stuck in a Slack stream. I tend to be slow and unresponsive on messages.
+I do my best work in small groups and one-on-one — advisor, mentor, coach roles where I get to extract a thought process and help someone build a clearer one. Ideating and analyzing data is where I'm steadiest.
 
-<!-- Interview source: briefs/interview-whoami-2026-05-21.md | Verbatim preserved: "knowledge base for somebody", "advisor mentor coach", "slow unresponsive", "pretty steadfast", "real edge", "10k extraction / sentiment / long-term hypothesis evaluation / no-code scaffolding for high-frequency training" -->
-
+<!-- Interview source: briefs/interview-whoami-2026-05-21.md | Verbatim preserved: "where our tools are performing", "10k extraction / sentiment / long-term hypothesis evaluation / no-code scaffolding for high-frequency training", "real edge", "what I'm chasing", "advisor mentor coach", "extract a thought process" -->
