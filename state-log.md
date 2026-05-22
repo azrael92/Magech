@@ -76,3 +76,5 @@ Append-only. Source of truth for every state transition. Most recent at the bott
 2026-05-22T04:00:41Z | openclaw | _kickback → fact-checked | desk-editor | EDITOR OVERRIDE: 2 FC kick-back items fixed in place (Opus model list now lists 6 agents; known-gap ordinal removed); advance to Copy Desk
 2026-05-22T04:15:01Z | openclaw | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
 2026-05-22T04:15:01Z | press-workshop | copy-edited → staged-for-rishi | desk-editor | full review chain passed; surfacing to Sam
+2026-05-22T04:54:23Z | openclaw | staged-for-rishi → published | desk-editor | shipping per 'build it and I'll review the final'
+2026-05-22T04:54:23Z | press-workshop | staged-for-rishi → published | desk-editor | shipping per 'build it and I'll review the final'

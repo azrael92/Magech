@@ -2,13 +2,13 @@
 title: Press Workshop
 slug: press-workshop
 section: projects
-status: draft
+status: published
 authored_by: desk-projects-writer
-reviewed_by: null
+reviewed_by: rishi
 created: 2026-05-20T20:30:00Z
-published: null
+published: 2026-05-22T04:53:00Z
 revision: 3
-last_updated: 2026-05-21T15:15:00Z
+last_updated: 2026-05-22T04:53:00Z
 tags: [fiction, amazon-kdp, multi-agent, publishing, pipeline, openclaw]
 project_name: Press Workshop
 project_status: active

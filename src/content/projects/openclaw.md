@@ -2,11 +2,11 @@
 title: OpenClaw
 slug: openclaw
 section: projects
-status: draft
+status: published
 authored_by: desk-projects-writer
-reviewed_by: null
+reviewed_by: rishi
 created: 2026-05-21T15:30:00Z
-published: null
+published: 2026-05-22T04:53:00Z
 revision: 2
 tags: [multi-agent, orchestration, anthropic-sdk, bare-metal, claude, infrastructure]
 project_name: OpenClaw
