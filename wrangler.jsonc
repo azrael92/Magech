@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "magech",
+  "compatibility_date": "2026-05-22",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  }
+}

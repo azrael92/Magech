@@ -1,0 +1,2 @@
+# Files in public/ that should NOT be served as static assets
+_worker.js
