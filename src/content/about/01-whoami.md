@@ -7,14 +7,14 @@ authored_by: rishi-and-desk-overview-writer
 reviewed_by: rishi
 created: 2026-05-21T16:00:00Z
 published: 2026-05-22T02:39:00Z
-revision: 4
+revision: 5
 tags: [pm, product-management, openclaw, ai-experiments, market-analysis]
 piece: whoami
 order: 1
 last_revised: 2026-05-21
 ---
 
-I'm a product manager. The day job is working with tech teams on operational performance: where our tools are working, where they're not, and how the gap between business metrics and actual customer impact closes. The rest is roadmap and rollout: regional expansions, entitlement value, helping owners in each region turn requirements into a rollout plan.
+I'm a product manager. The day job is operational tooling — measuring whether what we ship actually closes the gap between dashboard metrics and the customer experience.
 
 Outside the day job, I run a workshop. OpenClaw is the substrate — a 22-agent system on bare-metal hardware that I use to probe how Claude actually works: where orchestration breaks, where integration barriers show up, how different agent harnesses behave under load. Its Press Workshop side has shipped two commercial novels. Its editorial desk ships this site. A paper-mode options engine runs on the same infrastructure.
 
