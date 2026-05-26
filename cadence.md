@@ -24,23 +24,6 @@ Anchor topic queue (Editor picks from these, or new ones from Sam):
 
 ---
 
-## Research — continuous, weekly idle check
-
-Target: at least 2 entries per week, OR active update to existing entries on tracked threads.
-
-Editor pings Sam with 📅 if no Research activity for 14 consecutive days.
-
-Active threads:
-- `agent-reliability-tool-selection-degradation` (Patel et al. 2025; ProductClaw failure modes)
-- `embodiment-and-ai-personality` (historical comparison, animation cost)
-- `ai-for-everyone-trojan-horse` (cost-amortization hypothesis)
-- `openclaw-operational-data` (private — needs per-piece Rishi approval)
-- `publishing-and-ai-copywriting` (ePub experience, Udemy tutorial failures)
-- `cognitive-correlates-ai-use` (Gerlich 2025, Kosmyna 2025)
-- `agency-benchmarks` (GAIA, WebArena, OSWorld, METR HCAST)
-
----
-
 ## Projects — event-driven (when news lands)
 
 No regular cadence. Editor commissions a Projects update when:

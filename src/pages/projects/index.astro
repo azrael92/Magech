@@ -13,9 +13,10 @@ const projects = (await getCollection('projects', ({ data }) => data.status === 
   <section class="index">
     <div class="index-inner">
       <div class="index-header">
-        <span class="index-label">§ 03 · Projects</span>
+        <span class="index-label">§ 02 · Projects</span>
         <span class="index-label">{projects.length} project{projects.length === 1 ? '' : 's'}</span>
       </div>
+      <p style="color: var(--parchment); font-family: var(--font-body); font-size: 0.95rem; max-width: 60ch; margin: 1rem 0 2rem 0; line-height: 1.6;">I have questions about why things don't exist, so I build them to understand the problem better.</p>
       {projects.length === 0 ? (
         <p style="color: var(--parchment-muted); font-family: var(--font-body);">Build log opens with the first write-up.</p>
       ) : (

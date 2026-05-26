@@ -1,6 +1,6 @@
 # magech.ai
 
-A public workshop. Editorial publication on AI, embodiment, agent architecture, and the things the industry quietly chose not to talk about. Produced by R.S. and a 9-agent editorial desk running on OpenClaw.
+A public workshop. Editorial publication on AI, embodiment, agent architecture, and the things the industry quietly chose not to talk about. Produced by R.S. and an 8-agent editorial desk running on OpenClaw.
 
 **Live:** [magech.ai](https://magech.ai) (Cloudflare Pages, auto-deploy from `main`)
 
@@ -13,8 +13,7 @@ A public workshop. Editorial publication on AI, embodiment, agent architecture, 
 ├── src/
 │   ├── content/                 # markdown content per section
 │   │   ├── negative-space/      # monthly editorial essays
-│   │   ├── research/            # lab-notebook entries
-│   │   ├── projects/            # build log
+│   │   ├── projects/            # build log (each project ends with ## Learnings)
 │   │   └── overview/            # whoami / whyamihere / whyarewehere
 │   ├── content.config.ts        # Zod schemas — contract between agents and the site
 │   ├── layouts/                 # Astro page layouts
@@ -45,7 +44,7 @@ commissioned → drafted → critiqued → fact-checked → copy-edited → stag
 
 Reverse transitions (kickbacks) are common and logged the same way.
 
-The desk has 9 specialized agents:
+The desk has 8 specialized agents:
 
 | Agent | Role |
 |---|---|
@@ -55,8 +54,7 @@ The desk has 9 specialized agents:
 | `desk-copy-desk` | Final pass — schema, formatting, AI-pattern hunting. |
 | `desk-production` | Git ops + Cloudflare deploy + post-deploy verification. |
 | `desk-ns-writer` | Drafts Negative Space essays. |
-| `desk-research-writer` | Maintains the research notebook. |
-| `desk-projects-writer` | Writes the build log. |
+| `desk-projects-writer` | Writes the build log. Every Project ends with a `## Learnings` section (what the build taught about the problem). |
 | `desk-overview-writer` | Channels R.S.'s voice into Overview pieces (interview required). |
 
 All agent prompts live in `prompts/v2/`. The master spec is `prompts/v2/00-desk-operations.md`.

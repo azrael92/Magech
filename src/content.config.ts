@@ -25,28 +25,7 @@ const negativeSpace = defineCollection({
     read_minutes: z.number().int().nonnegative(),
     hero_question: z.string(),
     opens_with: z.enum(['drop_cap', 'image', 'pullquote']),
-    related_research: z.array(z.string()).default([]),
     related_projects: z.array(z.string()).default([]),
-  }),
-});
-
-// Research — lab notebook entries
-const research = defineCollection({
-  type: 'content',
-  schema: universal.extend({
-    section: z.literal('research'),
-    entry_type: z.enum(['trend', 'paper', 'question', 'experiment', 'dataset']),
-    thread_id: z.string(),
-    status_summary: z.string(),
-    key_findings: z.array(z.string()).min(3).max(7),
-    open_questions: z.array(z.string()),
-    sources: z.array(z.object({
-      title: z.string(),
-      url: z.string().url(),
-      accessed: z.coerce.date(),
-      relevance: z.enum(['primary', 'supporting', 'contradicting']),
-    })).min(1),
-    last_updated: z.coerce.date(),
   }),
 });
 
@@ -80,7 +59,6 @@ const about = defineCollection({
 
 export const collections = {
   'negative-space': negativeSpace,
-  'research': research,
   'projects': projects,
   'about': about,
 };

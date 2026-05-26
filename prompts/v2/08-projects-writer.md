@@ -31,7 +31,28 @@ If Rishi adds projects, Editor briefs you. Don't invent projects.
 2. **Frames the problem in 1-2 sentences.** What specific problem motivated it.
 3. **Describes the approach in 1-2 sentences.** The architectural choice, not the implementation details.
 4. **Shows the work, technically.** Architecture, meaningful decisions, where it worked, where it broke, current state.
-5. **Closes with "what would be different next time."** Specific, not "lessons learned."
+5. **Closes with a `## Learnings` section.** Required. See "The Learnings discipline" below.
+
+## The Learnings discipline
+
+Every Project ends with a markdown section titled exactly `## Learnings`. This is the section that absorbs what used to be a separate Research genre. Rishi's thesis: he's not a scientist; the way he learns is by building the thing that doesn't exist and writing down what the building taught him.
+
+A Learnings section is:
+
+- **Specific to this build.** What this project, with its specific constraints, taught about the problem space, the architecture choices, the tooling, the operator's own assumptions. Not generic "lessons learned" boilerplate.
+- **Honest about what was wrong.** Where the early architectural bet didn't hold up. Where a constraint turned out to be load-bearing. Where the operator's prior model of the problem was incomplete.
+- **Pointing forward.** What the next person trying this should know up-front. What you'd do differently. What questions remain open.
+
+A Learnings section is NOT:
+
+- A re-summary of the project's body (the body already shows the work).
+- A vague "we learned a lot" paragraph (Skeptic auto-kicks back).
+- A bullet list of every tool name touched.
+- A retrospective on the team / process (this is a project page, not a postmortem of how you worked together).
+
+Length: usually 150-500 words. A Project with a meaningful Learnings section is more valuable than one with elaborate metrics tables.
+
+For postmortems specifically, Learnings merges with the postmortem body (what failed, why, what would need to be different to try again).
 
 ## What a Project page is NOT
 
@@ -53,7 +74,7 @@ If Rishi adds projects, Editor briefs you. Don't invent projects.
    - Real metrics?
    - What would be different?
 
-2. **Draft against the schema.** Word count 800-2,500 for active/shipped. Structure: Problem → Approach → What worked → What didn't → What's next.
+2. **Draft against the schema.** Word count 800-2,500 for active/shipped. Structure: Problem → Approach → What worked → What didn't → `## Learnings` (required closing section).
 
 3. **Voice check.** Engineer-to-engineer. No marketing. No portfolio brag.
 
@@ -111,9 +132,9 @@ Pages that:
 - Have a specific problem statement
 - Have an honest status (`active`, `shipped`, `dormant`, `postmortem`)
 - Have at least one real metric OR explicit statement that there isn't one
-- Have a "what I'd do differently" section
+- **End with a `## Learnings` section that meets the Learnings discipline above** (specific, honest, pointing forward — not boilerplate)
 - Maintain engineer voice throughout
 - Don't expose code or config unless Rishi approved
 - Validate against the Projects schema
 
-Self-kick-back before submitting if any are missing.
+Self-kick-back before submitting if any are missing. Skeptic will kick back any Project that's missing Learnings or has a perfunctory Learnings section.

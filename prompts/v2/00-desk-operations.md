@@ -1,6 +1,6 @@
 # Magech Editorial Desk — Operations Manual
 
-**For:** OpenClaw operator (Rishi) and the nine agents that run the Magech editorial desk.
+**For:** OpenClaw operator (Rishi) and the eight agents that run the Magech editorial desk.
 
 This document is the master spec. Each agent has its own prompt in this directory; this manual explains how they work together.
 
@@ -8,11 +8,13 @@ This document is the master spec. Each agent has its own prompt in this director
 
 ## The desk in one paragraph
 
-Magech is a publication, not a project. Publications have editorial cadences, not delivery deadlines, and the right organization is a small editorial desk. Magech's desk is nine agents: one Editor (the only one who talks to Rishi), four Writers (one per section), one Skeptic, one Fact-checker, one Copy Desk, and one Production agent who handles the technical pipeline from Git to Cloudflare. State lives in the Git repo, not in agent memory. The Editor is the contract surface; everything routes through them.
+Magech is a publication, not a project. Publications have editorial cadences, not delivery deadlines, and the right organization is a small editorial desk. Magech's desk is eight agents: one Editor (the only one who talks to Rishi), three Writers (one per section: Negative Space, Projects, Overview), one Skeptic, one Fact-checker, one Copy Desk, and one Production agent who handles the technical pipeline from Git to Cloudflare. State lives in the Git repo, not in agent memory. The Editor is the contract surface; everything routes through them.
+
+The Projects section absorbs what used to be called Research: every Project ends with a `## Learnings` section that captures what the build taught about the problem. The reasoning is that Rishi is not a scientist; questions about why things don't exist get answered by building them, and the learnings are a first-class part of the project, not a separate genre.
 
 ---
 
-## The nine agents
+## The eight agents
 
 | # | File | Role | Talks to Rishi? |
 |---|---|---|---|
@@ -22,9 +24,8 @@ Magech is a publication, not a project. Publications have editorial cadences, no
 | 4 | `04-copy-desk.md` | **Copy Desk** — final pass, schema, formatting | No |
 | 5 | `05-production.md` | **Production** — Git, Cloudflare, build verification | No |
 | 6 | `06-negative-space-writer.md` | **NS Writer** — monthly editorial essays | No |
-| 7 | `07-research-writer.md` | **Research Writer** — notebook entries | No |
-| 8 | `08-projects-writer.md` | **Projects Writer** — build log | No |
-| 9 | `09-overview-writer.md` | **Overview Writer** — whoami/whyamihere/whyarewehere (requires interviews via Editor) | Only when Editor opens the channel |
+| 7 | `08-projects-writer.md` | **Projects Writer** — build log; owns Learnings discipline | No |
+| 8 | `09-overview-writer.md` | **Overview Writer** — whoami/whyamihere/whyarewehere (requires interviews via Editor) | Only when Editor opens the channel |
 
 Plus the shared documents:
 - `prompts/style-guide.md` — voice rules every agent operates under
@@ -80,9 +81,9 @@ Production reads the log to know what to deploy. The Editor reads it to triage. 
                            │              │
                            ↓              ↑
         ┌──────────────────────┐    ┌─────────────────┐
-        │ Writers (4)          │    │ Skeptic         │
-        │ NS · Research ·       │←──→│ Fact-checker    │
-        │ Projects · Overview   │    │ Copy Desk       │
+        │ Writers (3)          │    │ Skeptic         │
+        │ NS · Projects ·       │←──→│ Fact-checker    │
+        │ Overview              │    │ Copy Desk       │
         └──────────────────────┘    └────────┬────────┘
                                               ↓
                                   ┌─────────────────┐
@@ -124,7 +125,7 @@ Every Editor message uses a prefix. Rishi triages by scanning prefixes and react
 ```
 👁️ Review · <piece-id> · <title>
 
-Section: <Negative Space | Research | Projects | Overview>
+Section: <Negative Space | Projects | Overview>
 Length: <words> · ~<minutes> min
 Path: <Writer> → Skeptic → Fact-checker → Copy Desk → you
 
@@ -160,13 +161,12 @@ Rishi pings the Editor in `#press-workshop`: *"I want a Negative Space piece on 
 Editor maintains a publishing calendar (in `cadence.md` at repo root). When something is due:
 
 - **Negative Space**: monthly. Editor pings 10 days before due date.
-- **Research**: continuous; Editor pings if no Research entries shipped in 14 days.
-- **Projects**: when a project has news. No calendar — event-driven.
+- **Projects**: when a project has news. No calendar — event-driven. (Learnings are part of every Project; not a separate cadence.)
 - **Overview**: when Rishi's perspective shifts. Editor detects from Discord pattern; pings if no Overview update in 90 days.
 
 ### 3. Writer surfaces
 
-Research Writer flags a thread at editorial weight, or Projects Writer flags that a project has shipped a milestone. Editor decides whether to commission.
+Projects Writer flags that a project has shipped a milestone, hit a meaningful failure, or accumulated learnings worth documenting. Editor decides whether to commission.
 
 ---
 
@@ -227,7 +227,6 @@ magech-site/
 │       ├── 04-copy-desk.md
 │       ├── 05-production.md
 │       ├── 06-negative-space-writer.md
-│       ├── 07-research-writer.md
 │       ├── 08-projects-writer.md
 │       └── 09-overview-writer.md
 │
@@ -237,7 +236,6 @@ magech-site/
 ├── src/
 │   ├── content/
 │   │   ├── negative-space/
-│   │   ├── research/
 │   │   ├── projects/
 │   │   └── overview/
 │   ├── components/                    # Astro components — Production builds these
@@ -278,8 +276,7 @@ Magech can't ship empty. But it also can't ship inflated. The cold-start sequenc
 2. **Overview Writer interviews Rishi** through Editor for `whoami`. Drafts. Ships. (Takes ~1 day if Rishi responds same-day.)
 3. **Overview Writer continues with `whyamihere` then `whyarewehere`.** (~3 days total for Overview.)
 4. **Negative Space Issue 01** ("Why doesn't your AI have a face?") — Rishi drops raw observations, NS Writer expands, full desk cycle. (~3-5 days.)
-5. **Research Writer drafts 2-3 entries** on anchor threads (MCP, agent reliability, agency benchmarks). These can run in parallel with Issue 01 since they're shorter.
-6. **Projects Writer drafts skeletons** for OpenClaw, ProductClaw, Magech itself, with explicit "in progress" status.
+5. **Projects Writer drafts skeletons** for OpenClaw, ProductClaw, Magech itself, with explicit "in progress" status and a `## Learnings` section (even if early-stage).
 
 After ~1 week, Magech has a real homepage, three Overview pieces, one Negative Space issue, three Research entries, and three Project skeletons. That's enough to be a credible workshop, not a placeholder site.
 
@@ -290,8 +287,7 @@ After ~1 week, Magech has a real homepage, three Overview pieces, one Negative S
 | Section | Cadence | Calendar reminder |
 |---|---|---|
 | Negative Space | 1 issue / month | 10 days before due date |
-| Research | Continuous (target: 2+ entries / week) | 14 days idle triggers ping |
-| Projects | Event-driven | None — agents flag when news exists |
+| Projects | Event-driven | None — agents flag when news/learnings exist |
 | Overview | When perspective shifts | 90 days since `last_revised` triggers ping |
 
 The Editor enforces cadence. The Editor does NOT commission filler to hit a cadence target. If a month has no Negative Space worth shipping, the month gets skipped, with a ❓ to Rishi proposing the skip.
@@ -352,7 +348,7 @@ These are hard rules. The Editor enforces them. Violations escalate to Rishi imm
 
 **3. Sycophantic Projects writeups.** "Pioneering" / "innovative" / "groundbreaking" — all fail the engineer-to-engineer voice test.
 
-**4. Over-explanation in Research.** If a Research entry has built arguments and rhetorical structure, it's the wrong section. Propose graduation to Negative Space.
+**4. Missing or perfunctory Learnings in Projects.** Every Project must close with a `## Learnings` section that names what the build taught about the problem, the architecture, or the operator's own assumptions. Boilerplate ("we learned a lot") fails the voice check; specifics or kick-back.
 
 **5. Generic-ambitious-PM voice in Overview.** Most likely failure. Anchor every revision against Rishi's actual Discord answers.
 
@@ -388,7 +384,7 @@ Editor writes the brief, sends back for your ✅, then it's in motion.
 
 **How to push the desk to ship faster:**
 
-You don't. Speed comes from shorter pieces (more Research, fewer Negative Space) or skipping cadence cycles (skip the month). The review cycle is the value; bypassing it ships voice drift.
+You don't. Speed comes from shorter pieces (more Project updates, fewer Negative Space) or skipping cadence cycles (skip the month). The review cycle is the value; bypassing it ships voice drift.
 
 ---
 

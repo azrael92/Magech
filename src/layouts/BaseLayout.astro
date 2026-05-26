@@ -2,7 +2,7 @@
 interface Props {
   title?: string;
   description?: string;
-  activeSection?: 'about' | 'negative-space' | 'research' | 'projects' | null;
+  activeSection?: 'about' | 'negative-space' | 'projects' | null;
 }
 const {
   title = 'Magech — Every technology is magic until we get used to it',
@@ -35,7 +35,6 @@ import '../styles/site.css';
       <a href="/" class="wordmark">Mag<span class="accent">ech</span><span class="suffix">.ai</span></a>
       <div class="nav-links">
         <a href="/negative-space/" class={`nav-link${activeSection === 'negative-space' ? ' active' : ''}`}>Negative Space</a>
-        <a href="/research/" class={`nav-link${activeSection === 'research' ? ' active' : ''}`}>Research</a>
         <a href="/projects/" class={`nav-link${activeSection === 'projects' ? ' active' : ''}`}>Projects</a>
         <a href="/about/" class={`nav-link${activeSection === 'about' ? ' active' : ''}`}>About</a>
       </div>
