@@ -406,6 +406,56 @@ a:hover { color: var(--parchment); }
   font-weight: 600;
 }
 
+/* ---------- PROJECT EMBED ---------- */
+.project-embed {
+  margin: 2rem 0 2.5rem;
+  border: 1px solid var(--ink-rule);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--ink-pressed);
+}
+.project-embed-note {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--parchment-faded);
+  padding: 0.65rem 1rem;
+  margin: 0;
+  border-bottom: 1px solid var(--ink-rule);
+  background: var(--ink-raised);
+  max-width: none;
+}
+.project-embed-frame {
+  position: relative;
+  width: 100%;
+  padding-top: 62%; /* 16:10 aspect ratio */
+}
+.project-embed-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+.project-embed--pending {
+  border-style: dashed;
+  background: transparent;
+}
+.project-embed--pending .project-embed-note {
+  border-bottom: none;
+  background: transparent;
+  padding: 1rem;
+  color: var(--parchment-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-family: var(--font-body);
+  font-variation-settings: var(--fraunces-body);
+  font-style: italic;
+}
+
 /* ---------- FOOTER ---------- */
 .footer { padding: 3.5rem 0 2.5rem; position: relative; z-index: 2; }
 .footer-inner {

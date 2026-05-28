@@ -2,16 +2,16 @@
 title: The Felt
 slug: the-felt
 section: projects
-status: draft
+status: published
 authored_by: desk-projects-writer
 reviewed_by: null
 created: 2026-05-27T22:15:00Z
-published: null
-revision: 0
+published: 2026-05-27T22:15:00Z
+revision: 1
 tags: [poker, probability, python, fastapi, websocket, ai-agents, glicko]
 project_name: The Felt
 project_status: active
-tagline: "Texas Hold'em probability trainer — equity, pot odds, MDF, and EV surfaced turn-by-turn against archetype bots that get harder as you improve"
+tagline: "Hold'em probability trainer — equity, pot odds, MDF, and EV surfaced turn-by-turn against adaptive archetype opponents"
 problem: "Poker training tools typically either drill ranges in isolation or replay hand histories with a pass/fail rating. Neither teaches in-hand probabilistic reasoning against opponents with distinct patterns. A player who can calculate pot odds in a vacuum but can't apply them against a specific opponent's betting range isn't learning the right thing."
 approach: "A live Hold'em table with rule-based archetype opponents and a coach that shows equity, pot odds, MDF, and expected value after each decision. Difficulty adapts via Glicko-2: the bots tighten up as your rating climbs."
 stack: ["Python", "FastAPI", "WebSocket", "Treys", "Monte Carlo", "Glicko-2", "vanilla JS"]
@@ -19,6 +19,8 @@ links:
   - label: "GitHub"
     url: "https://github.com/azrael92/the-felt"
 metrics: []
+embed_url: null
+embed_note: "Work in progress — The Felt does not yet have session tracking or account management. Each session starts fresh. The education framework is still being refined."
 postmortem_notes: null
 ---
 

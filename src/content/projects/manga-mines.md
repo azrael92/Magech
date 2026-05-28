@@ -2,16 +2,16 @@
 title: MangaMines
 slug: manga-mines
 section: projects
-status: draft
+status: published
 authored_by: desk-projects-writer
 reviewed_by: null
 created: 2026-05-27T22:15:00Z
-published: null
-revision: 0
+published: 2026-05-27T22:15:00Z
+revision: 1
 tags: [manga, computer-vision, clustering, embeddings, sqlite, docker, python]
 project_name: MangaMines
 project_status: active
-tagline: "Data pipeline for mining manga: detect panels, bubbles, and characters; embed and cluster character boxes into identities; persist to SQLite for querying"
+tagline: "Detect, embed, and cluster character appearances from manga at scale — building identity-resolved training data from the corpus itself"
 problem: "Character consistency is the central unsolved problem in generative manga. Training data that resolves character identities across a series doesn't exist in a queryable form—creating it by hand is infeasible at the scale of a long-running series."
 approach: "Mine it from existing work. Detect every character appearance in a series using a manga-specialized vision model, embed each crop, cluster embeddings into identity groups, and let a human label the result. The corpus becomes the data layer for downstream generative work."
 stack: ["Python", "Docker", "SQLite", "magi", "OpenCV", "scikit-learn", "numpy", "ollama"]
@@ -30,9 +30,11 @@ metrics:
 postmortem_notes: null
 ---
 
-The thesis behind MangaMines is that the hardest problem in generative manga—character consistency across a series—is approachable if you treat the existing series as a corpus rather than a training target. One Piece has 111 volumes of scanned pages, character appearances, and official translations. That corpus contains everything needed to resolve character identities: you just need to detect every appearance, embed it, and cluster.
+The core problems in generative manga are well understood: character consistency across scenes, style coherence across a full series, and the gap between what a model produces and what a reader recognizes as the same character. Those problems are not new and there is no shortage of proposed solutions. What is less understood is where the limitations actually live—how much of the failure is the model, how much is the hardware it runs on, and how much is the approach to the problem itself.
 
-The alternative is training a character-consistent generator from scratch, which requires annotated data you don't have, and produces a system that generalizes poorly to new characters or style variations. Mining the corpus produces identity-resolved training data as a byproduct of the detection pipeline—you end up with "every panel where Sanji appears, indexed and labeled" before you've written a line of generation code.
+MangaMines was built to find out. Not to solve generative manga, but to get close enough to understand what close actually costs—in hardware, in model capability, and in architectural choices. The pipeline treats an existing series as a corpus and mines it: detect every character appearance, embed each crop, cluster into identity groups, and let a human label the result. The question is not "can we generate this character?" but "can we even represent this character precisely enough to generate them at all?"
+
+The answer depends heavily on what you're running on. This pipeline ran on a 2013-era Dell R620—no GPU, AVX but not AVX2. That constraint is not incidental to the project; it is the project. The gap between what a GPU-backed pipeline could do and what this hardware actually did is the measurement. Understanding that gap is the point.
 
 ## What the pipeline does
 
@@ -48,11 +50,13 @@ Given a folder of manga pages, the pipeline runs five stages:
 
 **Review UI.** A static HTML page with grid layouts per cluster: 12 crops per cluster, sorted by confidence score. A human labels each cluster with a character name. The UI writes its output to a JSON file the pipeline reads back on next run. No web server required—it opens directly from disk.
 
-## Hardware constraint shaped the architecture
+## Where hardware became the measurement
 
-The pipeline runs on a 2013-era Dell R620 (dual Xeon E5-2660 v2, 64GB RAM, no GPU) as the target deployment environment. The CPU is AVX but not AVX2, which rules out PyTorch's modern VLM inference kernels—they use AVX2 instruction sets and produce `Illegal instruction` faults on this hardware mid-session.
+The pipeline runs on a 2013-era Dell R620 (dual Xeon E5-2660 v2, 64GB RAM, no GPU). The CPU is AVX but not AVX2. That last detail matters more than it looks: PyTorch's modern VLM inference kernels use AVX2 instruction sets, and this hardware produces `Illegal instruction` faults mid-session when you try to run them.
 
-This surfaced mid-project when the initial design included VLM-based scene and emotion tagging. The fix was llama.cpp via ollama, which dispatches SIMD at runtime and works on AVX-only CPUs. That path is implemented as a sidecar container and wired into the stack, but the VLM tagging itself is parked. Detection on CPU takes ~10 seconds per page with magi. VLM tagging takes ~200 seconds per panel with small models on the same hardware, and the small models that fit in CPU memory can't reliably identify characters by name. The clustering approach to identity resolution turned out to be the more defensible architecture for this domain—no VLM required.
+The initial design included VLM-based scene and emotion tagging—ask a small model to describe each panel, name the character, identify the emotional register. That is the natural approach and it failed here not because the approach is wrong but because the hardware cannot run the models that would make it work. Small models that fit in 64GB RAM cannot reliably identify characters by name in manga context. Larger models that could do it reliably don't fit, and even if they did, at ~200 seconds per panel on CPU inference the runtime becomes unusable.
+
+This is the cost that hardware imposes. A GPU-backed pipeline with a capable VLM could plausibly do character identification by name in the detection pass. On this hardware, the ceiling is embeddings + clustering, and human labeling for the last step. That is not a failure of the approach—clustering works—but it is an honest accounting of what the constraints cost you. The design chose to make that tradeoff visible rather than hide it.
 
 ## Technical choices
 
@@ -64,13 +68,15 @@ This surfaced mid-project when the initial design included VLM-based scene and e
 
 **Two-container Docker stack.** Pipeline container (`mm`) plus ollama sidecar, manga library mounted read-only at `/data`, model caches under the project workdir so they persist across container restarts. Conservative resource caps to avoid crowding the 10+ other services running on the unRAID host. The ollama sidecar is currently underutilized (VLM path is parked) but the container architecture is cleaner with it separated.
 
-## What the corpus looks like
+## What the pipeline produced
 
-One Piece volume 111 (234 pages): 982 panels, 3,908 speech bubbles, 2,258 character boxes, 333 clusters. One volume of one series.
+One Piece volume 111, 234 pages: 982 panels detected, 3,908 speech bubbles, 2,258 character boxes, 333 identity clusters. That is the output of a single volume through the full pipeline on the target hardware in approximately one hour.
 
-Cluster quality is uneven by design. The clustering produces a starting partition for human labeling, not a final answer. Some clusters are clean: the top 20 clusters by size are predominantly single characters with consistent embedding distance. Some are mixed: Oda's art style for secondary characters overlaps in embedding space, especially in crowd scenes or background appearances. Some are junk drawers: low-confidence detections, partial crops, characters partially obscured.
+The cluster review UI displays each cluster as a grid of 12 crops, sorted by confidence score. Top clusters by size correspond to recognizable main characters—the largest clusters are visually coherent, predominantly one character across varied panel compositions. Mid-tier clusters are mixed: Oda's secondary character art style overlaps in embedding space, particularly in crowd scenes and background appearances where the character is partially framed. The bottom of the distribution is noise: low-confidence detections, partial crops, panels where the character is mostly obscured.
 
-The labeling UI exists specifically to handle this. Human label resolution is the step that converts "333 clusters" into "character identities" that mean something.
+The split is roughly: top 20 clusters are clean enough to label directly. The next 100 require examination before labeling. The remaining 213 are a mix of real minor characters, background figures, and detection artifacts that need human review to separate.
+
+This is what the pipeline can produce from CPU-only hardware with no GPU, no VLM tagging, and no pre-labeled training data. The ceiling is visible. So is the floor.
 
 ## What's not built
 

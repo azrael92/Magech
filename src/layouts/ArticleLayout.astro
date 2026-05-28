@@ -9,8 +9,10 @@ interface Props {
   opensWith?: 'drop_cap' | 'image' | 'pullquote';
   authoredBy?: string;
   reviewedBy?: string | null;
+  embedUrl?: string | null;
+  embedNote?: string | null;
 }
-const { title, deck, meta = [], activeSection = null, opensWith, authoredBy, reviewedBy } = Astro.props;
+const { title, deck, meta = [], activeSection = null, opensWith, authoredBy, reviewedBy, embedUrl, embedNote } = Astro.props;
 const bodyClass = opensWith === 'drop_cap' ? 'essay-body drop-cap' : 'essay-body';
 ---
 <BaseLayout title={`${title} · Magech`} activeSection={activeSection}>
@@ -28,6 +30,23 @@ const bodyClass = opensWith === 'drop_cap' ? 'essay-body drop-cap' : 'essay-body
       )}
       <h1 class="essay-title">{title}</h1>
       {deck && <p class="essay-deck">{deck}</p>}
+      {embedUrl ? (
+        <div class="project-embed">
+          {embedNote && <p class="project-embed-note">{embedNote}</p>}
+          <div class="project-embed-frame">
+            <iframe
+              src={embedUrl}
+              title={`${title} — live demo`}
+              loading="lazy"
+              allow="fullscreen"
+            />
+          </div>
+        </div>
+      ) : embedNote ? (
+        <div class="project-embed project-embed--pending">
+          <p class="project-embed-note">{embedNote}</p>
+        </div>
+      ) : null}
       <div class={bodyClass}>
         <slot />
       </div>
