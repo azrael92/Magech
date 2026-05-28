@@ -38,7 +38,7 @@ The demo is live. Play through stage 1 and see if it teaches differently than th
 
 Poker is taught in two broken ways. Either someone explains pot odds and EV abstractly without putting you in the seat, and you can't translate it under pressure. Or you sit at a table and the math is hidden inside an opaque "is this a good play?" feeling that takes years to calibrate.
 
-Helicopter pilots aren't taught either way. There are three control axes — cyclic, collective, anti-torque — and operating all three is nothing like operating any one of them. So the instructor takes two axes, the student takes one, until the first one is reflexive. Then they swap. Then they swap again. The mental load expands one axis at a time.
+There's an analogy I keep returning to from helicopter simulators: three control axes — cyclic, collective, anti-torque — and operating all three at once is nothing like operating any one of them. The version in my head has an instructor holding two axes while the student owns one, until the first axis is reflexive. Then they swap. The mental load expands one axis at a time. Whether that's how helicopter instruction actually works I genuinely can't say — but the shape of the idea is right.
 
 The Felt is that, for Hold'em.
 

@@ -429,7 +429,8 @@ a:hover { color: var(--parchment); }
 .project-embed-frame {
   position: relative;
   width: 100%;
-  padding-top: 62%; /* 16:10 aspect ratio */
+  padding-top: 0;
+  height: max(62vw, 700px); /* tall enough for interactive game embeds */
 }
 .project-embed-frame iframe {
   position: absolute;
