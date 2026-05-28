@@ -408,7 +408,12 @@ a:hover { color: var(--parchment); }
 
 /* ---------- PROJECT EMBED ---------- */
 .project-embed {
-  margin: 2rem 0 2.5rem;
+  /* Break out of the essay-inner 38rem column — center on the page up to 64rem */
+  width: min(64rem, calc(100vw - 3rem));
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
   border: 1px solid var(--ink-rule);
   border-radius: 4px;
   overflow: hidden;
@@ -430,7 +435,7 @@ a:hover { color: var(--parchment); }
   position: relative;
   width: 100%;
   padding-top: 0;
-  height: max(62vw, 700px); /* tall enough for interactive game embeds */
+  height: clamp(700px, 78vh, 960px); /* tall enough for interactive game embeds */
 }
 .project-embed-frame iframe {
   position: absolute;
