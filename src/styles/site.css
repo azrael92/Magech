@@ -97,7 +97,7 @@ a:hover { color: var(--parchment); }
   text-decoration: none;
   font-variation-settings: "SOFT" 30, "opsz" 14;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 0;
   white-space: nowrap;
 }
