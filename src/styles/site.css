@@ -108,6 +108,7 @@ a:hover { color: var(--parchment); }
   flex-shrink: 0;
 }
 .wordmark-text {
+  margin-left: -68px;
   position: relative;
 }
 .wordmark-dim { color: var(--parchment-faded); }
