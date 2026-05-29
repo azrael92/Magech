@@ -9,19 +9,20 @@ const aboutPieces = (await getCollection('about', ({ data }) => data.status === 
 const whoami = aboutPieces[0] ?? null;
 
 // Visual config per project — update when a new project ships
-const visuals: Record<string, { gradient: string; accent: string; glyph: string }> = {
-  'the-felt':       { gradient: 'linear-gradient(145deg, #0d3520 0%, #1a5c32 55%, #0a2a18 100%)', accent: '#2d8a50', glyph: '♠' },
-  'press-workshop': { gradient: 'linear-gradient(145deg, #2c1a06 0%, #4a2e10 55%, #1a0f03 100%)', accent: '#c8812a', glyph: '✦' },
-  'streammesh':     { gradient: 'linear-gradient(145deg, #071528 0%, #0f2545 55%, #040e1e 100%)', accent: '#2a6aad', glyph: '⧉' },
-  'manga-mines':    { gradient: 'linear-gradient(145deg, #151515 0%, #282828 50%, #1a0508 100%)', accent: '#c41c1c', glyph: '◈' },
-  'magech':         { gradient: 'linear-gradient(145deg, #1a1005 0%, #2d1e08 55%, #110b02 100%)', accent: '#c8912a', glyph: '⬡' },
+const visuals: Record<string, { gradient: string; accent: string; glyph: string; mediaType: 'cards' | 'typewriter' | 'video' | 'scanlines' | 'dragon' }> = {
+  'the-felt':       { gradient: 'linear-gradient(145deg, #0d3520 0%, #1a5c32 55%, #0a2a18 100%)', accent: '#2d8a50', glyph: '♠', mediaType: 'cards' },
+  'press-workshop': { gradient: 'linear-gradient(145deg, #2c1a06 0%, #4a2e10 55%, #1a0f03 100%)', accent: '#c8812a', glyph: '✦', mediaType: 'typewriter' },
+  'streammesh':     { gradient: 'linear-gradient(145deg, #071528 0%, #0f2545 55%, #040e1e 100%)', accent: '#2a6aad', glyph: '⧉', mediaType: 'video' },
+  'manga-mines':    { gradient: 'linear-gradient(145deg, #151515 0%, #282828 50%, #1a0508 100%)', accent: '#c41c1c', glyph: '◈', mediaType: 'scanlines' },
+  'magech':         { gradient: 'linear-gradient(145deg, #1a1005 0%, #2d1e08 55%, #110b02 100%)', accent: '#c8912a', glyph: '⬡', mediaType: 'dragon' },
 };
 function vis(slug: string) {
-  return visuals[slug] ?? { gradient: 'linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%)', accent: '#7a6cb0', glyph: '◆' };
+  return visuals[slug] ?? { gradient: 'linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%)', accent: '#7a6cb0', glyph: '◆', mediaType: 'cards' as const };
 }
+const brandify = (name: string) => name.replace('MESH', '<span class="brand-accent">MESH</span>');
 ---
 <BaseLayout>
-  <!-- Slim tagline hero -->
+  <!-- Hero tagline -->
   <section class="hero hero--slim">
     <div class="hero-inner">
       <p class="hero-eyebrow">Workshop notes</p>
@@ -29,11 +30,112 @@ function vis(slug: string) {
     </div>
   </section>
 
-  <!-- Project highlight reel -->
+  <!-- Auto-rotating project spotlight banner -->
+  <section class="spotlight" aria-label="Project spotlight">
+    <div class="spotlight-track" id="spotlight-track">
+      {projects.map((p, i) => {
+        const v = vis(p.slug);
+        return (
+          <div class={`spotlight-slide${i === 0 ? ' is-active' : ''}`} data-index={i} aria-hidden={i !== 0 ? 'true' : 'false'}>
+            <div class="spotlight-bg" style={`background: ${v.gradient};`} />
+            <div class="spotlight-inner">
+              <div class="spotlight-text">
+                <span class="spotlight-badge" data-status={p.data.project_status}>{p.data.project_status}</span>
+                <h2 class="spotlight-title" set:html={brandify(p.data.project_name)} />
+                <p class="spotlight-desc">{p.data.tagline}</p>
+                <a href={`/projects/${p.slug}/`} class="spotlight-cta" style={`--cta-color: ${v.accent};`}>
+                  Explore project →
+                </a>
+              </div>
+              <div class="spotlight-media" aria-hidden="true" data-media={v.mediaType} style={`--accent: ${v.accent};`}>
+                {v.mediaType === 'video' && (
+                  <video class="spotlight-video" autoplay loop muted playsinline>
+                    <source src="/videos/streammesh-demo.webm" type="video/webm" />
+                  </video>
+                )}
+                {v.mediaType === 'cards' && (
+                  <div class="spotlight-cards">
+                    <div class="card card-1">A<br/>♠</div>
+                    <div class="card card-2">K<br/>♥</div>
+                    <div class="card card-3">Q<br/>♦</div>
+                    <div class="card card-4">J<br/>♣</div>
+                  </div>
+                )}
+                {v.mediaType === 'typewriter' && (
+                  <div class="spotlight-typewriter">
+                    <span class="tw-line">Chapter 1: The Signal</span>
+                    <span class="tw-line">Draft · 2,847 words</span>
+                    <span class="tw-line">Stage: copyedit</span>
+                    <span class="tw-cursor">▋</span>
+                  </div>
+                )}
+                {v.mediaType === 'scanlines' && (
+                  <div class="spotlight-scanlines">
+                    <div class="sl-panel sl-1" />
+                    <div class="sl-panel sl-2" />
+                    <div class="sl-panel sl-3" />
+                    <div class="sl-panel sl-4" />
+                    <div class="sl-sweep" />
+                  </div>
+                )}
+                {v.mediaType === 'dragon' && (
+                  <div class="spotlight-dragon">
+                    <img src="/brand/logo-compact-color-nobg.png" alt="" class="dragon-img" />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+    <div class="spotlight-controls">
+      <button class="spotlight-arrow" id="spotlight-prev" aria-label="Previous project">‹</button>
+      <div class="spotlight-dots" id="spotlight-dots" role="tablist">
+        {projects.map((p, i) => (
+          <button
+            class={`spotlight-dot${i === 0 ? ' is-active' : ''}`}
+            data-index={i}
+            role="tab"
+            aria-label={p.data.project_name}
+            aria-selected={i === 0 ? 'true' : 'false'}
+          />
+        ))}
+      </div>
+      <button class="spotlight-arrow" id="spotlight-next" aria-label="Next project">›</button>
+    </div>
+  </section>
+
+  <!-- Overview stats strip -->
+  <div class="overview-strip">
+    <div class="overview-inner">
+      <div class="overview-stat">
+        <span class="overview-value">{projects.length}</span>
+        <span class="overview-label">active projects</span>
+      </div>
+      <span class="overview-sep">·</span>
+      <div class="overview-stat">
+        <span class="overview-value">12</span>
+        <span class="overview-label">specialized agents</span>
+      </div>
+      <span class="overview-sep">·</span>
+      <div class="overview-stat">
+        <span class="overview-value">2</span>
+        <span class="overview-label">books shipped</span>
+      </div>
+      <span class="overview-sep">·</span>
+      <div class="overview-stat">
+        <span class="overview-value">~170k</span>
+        <span class="overview-label">words of fiction</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project cards reel -->
   <section class="reel">
     <div class="reel-inner">
       <div class="reel-header">
-        <img src="/brand/logo-icon.png" alt="" class="reel-logo" width="20" height="20" />
+        <img src="/brand/logo-compact-color-nobg.png" alt="" class="reel-logo" width="20" height="20" />
         <span class="reel-label">Active projects</span>
         <a href="/projects/" class="reel-all">All →</a>
       </div>
@@ -47,7 +149,7 @@ function vis(slug: string) {
               </div>
               <div class="reel-card-body">
                 <span class="reel-card-status" data-status={p.data.project_status}>{p.data.project_status}</span>
-                <h3 class="reel-card-name">{p.data.project_name}</h3>
+                <h3 class="reel-card-name" set:html={brandify(p.data.project_name)} />
                 <p class="reel-card-tag">{p.data.tagline}</p>
               </div>
             </a>
@@ -73,3 +175,58 @@ function vis(slug: string) {
     </article>
   </section>
 </BaseLayout>
+
+<script>
+(function () {
+  const track = document.getElementById('spotlight-track');
+  if (!track) return;
+
+  const slides = Array.from(track.querySelectorAll('.spotlight-slide'));
+  const dots   = Array.from(document.querySelectorAll('.spotlight-dot'));
+  let current  = 0;
+  let timer: ReturnType<typeof setInterval> | null = null;
+
+  function resetAnimations(slide: Element) {
+    // Re-trigger CSS animations for media panels by cloning in place
+    const media = slide.querySelector('.spotlight-media');
+    if (!media) return;
+    const clone = media.cloneNode(true) as Element;
+    media.parentNode?.replaceChild(clone, media);
+  }
+
+  function goTo(n: number) {
+    slides[current].classList.remove('is-active');
+    slides[current].setAttribute('aria-hidden', 'true');
+    dots[current].classList.remove('is-active');
+    dots[current].setAttribute('aria-selected', 'false');
+    current = ((n % slides.length) + slides.length) % slides.length;
+    slides[current].classList.add('is-active');
+    slides[current].setAttribute('aria-hidden', 'false');
+    dots[current].classList.add('is-active');
+    dots[current].setAttribute('aria-selected', 'true');
+    resetAnimations(slides[current]);
+  }
+
+  function startTimer() {
+    timer = setInterval(() => goTo(current + 1), 7000);
+  }
+  function stopTimer() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  startTimer();
+
+  // Pause on hover
+  track.addEventListener('mouseenter', stopTimer);
+  track.addEventListener('mouseleave', startTimer);
+
+  // Dot clicks
+  dots.forEach((d, i) => {
+    d.addEventListener('click', () => { stopTimer(); goTo(i); startTimer(); });
+  });
+
+  // Arrow buttons
+  document.getElementById('spotlight-prev')?.addEventListener('click', () => { stopTimer(); goTo(current - 1); startTimer(); });
+  document.getElementById('spotlight-next')?.addEventListener('click', () => { stopTimer(); goTo(current + 1); startTimer(); });
+})();
+</script>
