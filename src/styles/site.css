@@ -183,7 +183,7 @@ a:hover { color: var(--parchment); }
   font-size: calc(0.7rem + 3px);
   text-transform: uppercase;
   letter-spacing: 0.22em;
-  color: var(--amethyst-deep);
+  color: var(--amethyst-bright);
   margin: 0 0 1.75rem 0;
 }
 .hero-title {
