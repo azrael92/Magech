@@ -97,8 +97,16 @@ a:hover { color: var(--parchment); }
   text-decoration: none;
   font-variation-settings: "SOFT" 30, "opsz" 14;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
+  gap: 0.5rem;
   white-space: nowrap;
+}
+.wordmark-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+  /* Swap for compact folded-wing logo when available */
 }
 .wordmark:hover { color: var(--parchment); }
 .wordmark .accent { color: var(--amethyst); }

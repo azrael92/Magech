@@ -25,6 +25,10 @@ import '../styles/site.css';
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,30..100&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <title>{title}</title>
 </head>
 <body style="background:#12100e;background-color:#12100e;">
@@ -32,7 +36,10 @@ import '../styles/site.css';
 
   <nav class="nav">
     <div class="nav-inner">
-      <a href="/" class="wordmark">Mag<span class="accent">ech</span><span class="suffix">.ai</span></a>
+      <a href="/" class="wordmark">
+        <img src="/brand/logo-main.png" alt="Magech" class="wordmark-logo" width="28" height="28" />
+        Mag<span class="accent">ech</span><span class="suffix">.ai</span>
+      </a>
       <div class="nav-links">
         <a href="/negative-space/" class={`nav-link${activeSection === 'negative-space' ? ' active' : ''}`}>Negative Space</a>
         <a href="/projects/" class={`nav-link${activeSection === 'projects' ? ' active' : ''}`}>Projects</a>
