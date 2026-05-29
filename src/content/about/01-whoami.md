@@ -14,10 +14,8 @@ order: 1
 last_revised: 2026-05-21
 ---
 
-I'm a product manager. The day job is operational tooling — measuring whether what we ship actually closes the gap between dashboard metrics and the customer experience.
+Bioengineering degree. Seven years at a startup. Now at Amazon in product.
 
-Outside the day job, I run a workshop. OpenClaw is the substrate — a 22-agent system on bare-metal hardware that I use to probe how Claude actually works: where orchestration breaks, where integration barriers show up, how different agent harnesses behave under load. Its Press Workshop side has shipped two commercial novels. Its editorial desk ships this site. A paper-mode options engine runs on the same infrastructure.
+Magech is the workshop I run outside the day job — building agent systems, shipping experiments, writing up what I find. The question driving most of it: where does an LLM add real edge when you're not running it at scale? That gap between "useful" and "edge" is where the interesting work is.
 
-The question I'm working on: where does an LLM add real edge if you're not throwing large-scale compute at the problem? There are obvious uses: 10-K extraction, sentiment, long-term hypothesis evaluation, no-code scaffolding for high-frequency training setups. But the gap between "useful" and "edge" is where most of the actual work lives. That's what I'm chasing.
-
-<!-- Interview source: briefs/interview-whoami-2026-05-21.md | Verbatim preserved: "where our tools are performing", "10k extraction / sentiment / long-term hypothesis evaluation / no-code scaffolding for high-frequency training", "real edge", "what I'm chasing" -->
+Feel free to [connect on LinkedIn](https://linkedin.com/in/rishi-samani).
