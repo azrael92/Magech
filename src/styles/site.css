@@ -98,17 +98,24 @@ a:hover { color: var(--parchment); }
   font-variation-settings: "SOFT" 30, "opsz" 14;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 0;
   white-space: nowrap;
 }
 .wordmark-logo {
-  height: 36px;
-  width: 36px;
+  height: 52px;
+  width: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
 .wordmark-text {
+  margin-left: -68px;
   position: relative;
+  z-index: 1;
+  text-shadow:
+    0 0 6px #0a0908,
+    0 0 14px rgba(10, 9, 8, 0.95),
+    1px 1px 0 rgba(10, 9, 8, 0.9),
+    -1px -1px 0 rgba(10, 9, 8, 0.9);
 }
 .wordmark-dim { color: var(--parchment-faded); }
 .wordmark:hover { color: var(--parchment); }
