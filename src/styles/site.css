@@ -82,7 +82,7 @@ a:hover { color: var(--parchment); }
 .nav-inner {
   max-width: 90rem;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 0.75rem;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -91,7 +91,7 @@ a:hover { color: var(--parchment); }
 }
 .wordmark {
   font-family: var(--font-display);
-  font-size: calc(1.5rem - 1px);
+  font-size: 1.8rem;
   font-weight: 500;
   letter-spacing: -0.015em;
   color: var(--parchment);
@@ -103,13 +103,13 @@ a:hover { color: var(--parchment); }
   white-space: nowrap;
 }
 .wordmark-logo {
-  height: 52px;
+  height: 64px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
 .wordmark-text {
-  margin-left: -68px;
+  margin-left: -80px;
   position: relative;
   z-index: 1;
   text-shadow:
@@ -167,7 +167,7 @@ a:hover { color: var(--parchment); }
 /* ---------- HERO ---------- */
 .hero { padding: 7rem 0 4rem; position: relative; z-index: 2; }
 .hero--slim { padding: 3.5rem 0 2rem; }
-.hero-inner { max-width: 84rem; margin: 0 auto; padding: 0 1.5rem; }
+.hero-inner { max-width: 84rem; margin: 0 auto; padding: 0 0.75rem; }
 .hero-tagline {
   font-size: 1rem;
   line-height: 1.65;
@@ -243,7 +243,7 @@ a:hover { color: var(--parchment); }
   z-index: 2;
   border-top: 1px solid var(--ink-rule);
 }
-.index-inner { max-width: 84rem; margin: 0 auto; padding: 0 1.5rem; }
+.index-inner { max-width: 84rem; margin: 0 auto; padding: 0 0.75rem; }
 .index-header {
   display: flex;
   justify-content: space-between;
@@ -337,7 +337,7 @@ a:hover { color: var(--parchment); }
   z-index: 2;
   border-top: 1px solid var(--ink-rule);
 }
-.essay-inner { max-width: 52rem; margin: 0 auto; padding: 0 1.5rem; }
+.essay-inner { max-width: 52rem; margin: 0 auto; padding: 0 0.75rem; }
 .essay-meta {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -528,7 +528,7 @@ a:hover { color: var(--parchment); }
   width: min(84rem, 100%);
   height: 100%;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 0.75rem;
   display: flex;
   align-items: center;
 }
@@ -583,7 +583,7 @@ a:hover { color: var(--parchment); }
 /* ---------- SPOTLIGHT MEDIA PANEL ---------- */
 .spotlight-media {
   position: absolute;
-  right: 1.5rem;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   width: clamp(200px, 30vw, 420px);
@@ -784,7 +784,7 @@ a:hover { color: var(--parchment); }
 .overview-inner {
   max-width: 84rem;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 0.75rem;
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -822,7 +822,7 @@ a:hover { color: var(--parchment); }
   z-index: 2;
   border-top: 1px solid var(--ink-rule);
 }
-.reel-inner { max-width: 84rem; margin: 0 auto; padding: 0 1.5rem; }
+.reel-inner { max-width: 84rem; margin: 0 auto; padding: 0 0.75rem; }
 .reel-header {
   display: flex;
   align-items: center;
@@ -930,7 +930,7 @@ a:hover { color: var(--parchment); }
 .footer-inner {
   max-width: 84rem;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 0.75rem;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
