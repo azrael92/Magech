@@ -14,7 +14,7 @@ order: 1
 last_revised: 2026-05-21
 ---
 
-Bioengineering degree. Seven years at a startup. Now at Amazon in product.
+Bioengineering degree. Seven years in startup land. Now at Amazon in product.
 
 Magech is the workshop I run outside the day job — building agent systems, shipping experiments, writing up what I find. The question driving most of it: where does an LLM add real edge when you're not running it at scale? That gap between "useful" and "edge" is where the interesting work is.
 
