@@ -694,18 +694,18 @@ a:hover { color: var(--parchment); }
   grid-template-rows: 1fr 1fr;
   gap: 3px;
   padding: 3px;
-  background: #111;
+  background: #111 url('/manga-mines-bg.png') center/cover no-repeat;
   border-radius: 4px;
   overflow: hidden;
 }
 .sl-panel {
-  background: #1e1e1e;
+  background: rgba(20, 4, 4, 0.55);
   border-radius: 2px;
 }
-.sl-1 { background: linear-gradient(135deg, #1a0303 0%, #2a0808 100%); }
-.sl-2 { background: linear-gradient(135deg, #111 0%, #1e1e1e 100%); }
-.sl-3 { background: linear-gradient(135deg, #1e1e1e 0%, #111 100%); }
-.sl-4 { background: linear-gradient(135deg, #2a0808 0%, #1a0303 100%); }
+.sl-1 { background: rgba(26, 3, 3, 0.6); }
+.sl-2 { background: rgba(10, 10, 10, 0.45); }
+.sl-3 { background: rgba(15, 10, 10, 0.45); }
+.sl-4 { background: rgba(30, 5, 5, 0.6); }
 .sl-sweep {
   position: absolute;
   inset: 0;
