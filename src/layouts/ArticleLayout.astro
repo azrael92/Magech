@@ -14,6 +14,7 @@ interface Props {
 }
 const { title, deck, meta = [], activeSection = null, opensWith, authoredBy, reviewedBy, embedUrl, embedNote } = Astro.props;
 const bodyClass = opensWith === 'drop_cap' ? 'essay-body drop-cap' : 'essay-body';
+const isVideo = embedUrl ? /\.(webm|mp4|ogg)$/i.test(embedUrl) : false;
 ---
 <BaseLayout title={`${title} · Magech`} activeSection={activeSection}>
   <section class="essay">
@@ -34,11 +35,23 @@ const bodyClass = opensWith === 'drop_cap' ? 'essay-body drop-cap' : 'essay-body
         <div class="project-embed">
           {embedNote && <p class="project-embed-note">{embedNote}</p>}
           <div class="project-embed-frame">
-            <iframe
-              src={embedUrl}
-              title={`${title} — live demo`}
-              allow="fullscreen"
-            />
+            {isVideo ? (
+              <video
+                src={embedUrl}
+                controls
+                loop
+                muted
+                autoplay
+                playsinline
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"
+              />
+            ) : (
+              <iframe
+                src={embedUrl}
+                title={`${title} — live demo`}
+                allow="fullscreen"
+              />
+            )}
           </div>
         </div>
       ) : embedNote ? (

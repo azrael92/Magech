@@ -42,9 +42,11 @@ const projects = defineCollection({
     stack: z.array(z.string()),
     links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
     metrics: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
-    embed_url: z.string().url().nullable().optional(),
+    embed_url: z.string().nullable().optional(), // accepts absolute URLs or root-relative paths (/videos/...)
+
     embed_note: z.string().nullable().optional(),
     postmortem_notes: z.string().nullable().optional(),
+    sort_order: z.number().int().nonnegative().default(99),
   }),
 });
 

@@ -1,6 +1,7 @@
 ---
 title: StreamMesh
 slug: streammesh
+sort_order: 3
 section: projects
 status: published
 authored_by: desk-projects-writer
@@ -17,8 +18,8 @@ approach: "Build the interface the platforms won't. A browser-based viewer that 
 stack: ["TypeScript", "WebExtension API", "CSS Grid", "Picture-in-Picture API", "vanilla JS"]
 links: []
 metrics: []
-embed_url: null
-embed_note: null
+embed_url: "/videos/streammesh-demo.webm"
+embed_note: "Interface walkthrough — layout switching, channel entry, share flow"
 postmortem_notes: null
 ---
 
