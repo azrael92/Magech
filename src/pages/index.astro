@@ -31,7 +31,7 @@ const brandify = (name: string) => name.replace('MESH', '<span class="brand-acce
   </section>
 
   <!-- Auto-rotating project spotlight banner -->
-  <section class="spotlight" aria-label="Project spotlight">
+  <section class="spotlight" aria-label="Project spotlight" dir="ltr">
     <div class="spotlight-track" id="spotlight-track">
       {projects.map((p, i) => {
         const v = vis(p.slug);
