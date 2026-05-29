@@ -80,7 +80,7 @@ const brandify = (name: string) => name.replace('MESH', '<span class="brand-acce
                 )}
                 {v.mediaType === 'dragon' && (
                   <div class="spotlight-dragon">
-                    <img src="/brand/logo-compact-color-nobg.png" alt="" class="dragon-img" />
+                    <img src="/brand/logo-main.png" alt="" class="dragon-img" />
                   </div>
                 )}
               </div>
@@ -187,9 +187,16 @@ const brandify = (name: string) => name.replace('MESH', '<span class="brand-acce
   let timer: ReturnType<typeof setInterval> | null = null;
 
   function resetAnimations(slide: Element) {
-    // Re-trigger CSS animations for media panels by cloning in place
     const media = slide.querySelector('.spotlight-media');
     if (!media) return;
+    // Video: restart without cloning — cloning causes a visible flash frame
+    const video = media.querySelector('video');
+    if (video) {
+      (video as HTMLVideoElement).currentTime = 0;
+      (video as HTMLVideoElement).play().catch(() => {});
+      return;
+    }
+    // CSS-animated panels: clone to re-trigger animations
     const clone = media.cloneNode(true) as Element;
     media.parentNode?.replaceChild(clone, media);
   }
