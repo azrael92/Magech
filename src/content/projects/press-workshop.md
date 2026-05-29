@@ -39,7 +39,7 @@ Two books shipped. Read both below.
     </div>
     <h3 class="book-title">Winters Bay</h3>
     <p class="book-blurb">Nora Cole became an FBI profiler to understand the kind of man who kills women like her mother. Fifteen years after fleeing Winters Bay, she returns for her mother's funeral — officially an accident, officially a conclusion too convenient to believe.</p>
-    <button class="epub-open-btn" data-file="/epub/winters-bay.epub" data-title="Winters Bay">Read the epub</button>
+    <a class="epub-open-btn" href="/reader.html?file=%2Fepub%2Fwinters-bay.epub" target="_blank" rel="noopener">Read the epub ↗</a>
   </div>
   <div class="book-card">
     <div class="book-meta">
@@ -48,18 +48,7 @@ Two books shipped. Read both below.
     </div>
     <h3 class="book-title">Mountain Haven</h3>
     <p class="book-blurb">Miranda Castillo inherited a failing diner in a town she left at eighteen. Jake Mercer is the contractor who keeps showing up with tools and grief metaphors. A small-town romance about the things you build when you stop running from what broke you.</p>
-    <button class="epub-open-btn" data-file="/epub/mountain-haven.epub" data-title="Mountain Haven">Read the epub</button>
-  </div>
-</div>
-
-<div id="epub-modal" aria-hidden="true">
-  <div id="epub-modal-backdrop"></div>
-  <div id="epub-modal-inner">
-    <div id="epub-modal-header">
-      <span id="epub-modal-title"></span>
-      <button id="epub-modal-close" aria-label="Close reader">✕</button>
-    </div>
-    <iframe id="epub-modal-frame" title="Epub Reader" allowfullscreen></iframe>
+    <a class="epub-open-btn" href="/reader.html?file=%2Fepub%2Fmountain-haven.epub" target="_blank" rel="noopener">Read the epub ↗</a>
   </div>
 </div>
 
@@ -127,6 +116,7 @@ Two books shipped. Read both below.
   font-size: 0.8rem;
   font-family: 'JetBrains Mono', 'Menlo', monospace;
   letter-spacing: 0.06em;
+  text-decoration: none;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
   align-self: flex-start;
@@ -135,112 +125,7 @@ Two books shipped. Read both below.
   background: rgba(74, 58, 111, 0.5);
   color: #c4b8e8;
 }
-
-/* Modal */
-#epub-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-}
-#epub-modal[aria-hidden="false"] {
-  display: flex;
-}
-#epub-modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 9, 8, 0.88);
-  backdrop-filter: blur(8px);
-}
-#epub-modal-inner {
-  position: relative;
-  z-index: 1;
-  width: min(900px, 94vw);
-  height: min(88vh, 820px);
-  background: #0f0d0b;
-  border: 1px solid rgba(250, 243, 224, 0.10);
-  box-shadow: inset 0 1px 0 rgba(250, 243, 224, 0.07),
-              0 32px 80px rgba(0, 0, 0, 0.7);
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  animation: modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes modal-in {
-  from { opacity: 0; transform: translateY(14px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-#epub-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.7rem 1rem;
-  border-bottom: 1px solid rgba(45, 38, 32, 0.8);
-  flex-shrink: 0;
-  background: rgba(18, 16, 14, 0.95);
-}
-#epub-modal-title {
-  font-family: 'JetBrains Mono', 'Menlo', monospace;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: #4a4439;
-}
-#epub-modal-close {
-  background: none;
-  border: none;
-  color: #4a4439;
-  font-size: 0.85rem;
-  cursor: pointer;
-  padding: 0.25rem 0.4rem;
-  border-radius: 3px;
-  line-height: 1;
-  transition: color 0.15s;
-}
-#epub-modal-close:hover { color: #faf3e0; }
-#epub-modal-frame {
-  flex: 1;
-  width: 100%;
-  border: none;
-  background: #0a0908;
-}
 </style>
-
-<script>
-(function() {
-  const modal = document.getElementById('epub-modal');
-  const frame = document.getElementById('epub-modal-frame');
-  const titleEl = document.getElementById('epub-modal-title');
-  const closeBtn = document.getElementById('epub-modal-close');
-  const backdrop = document.getElementById('epub-modal-backdrop');
-
-  document.querySelectorAll('.epub-open-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const file = btn.dataset.file;
-      const title = btn.dataset.title;
-      frame.src = '/reader.html?file=' + encodeURIComponent(file);
-      titleEl.textContent = title;
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    });
-  });
-
-  function closeModal() {
-    modal.setAttribute('aria-hidden', 'true');
-    frame.src = '';
-    document.body.style.overflow = '';
-  }
-
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', closeModal);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
-})();
-</script>
 
 ## How it works
 
