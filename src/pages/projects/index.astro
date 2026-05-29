@@ -3,11 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects', ({ data }) => data.status === 'published'))
-  .sort((a, b) => {
-    // active first, then shipped, dormant, postmortem
-    const order = { active: 0, shipped: 1, dormant: 2, postmortem: 3 };
-    return (order[a.data.project_status] ?? 99) - (order[b.data.project_status] ?? 99);
-  });
+  .sort((a, b) => (a.data.sort_order ?? 99) - (b.data.sort_order ?? 99));
 ---
 <BaseLayout title="Projects · Magech" activeSection="projects">
   <section class="index">
@@ -16,7 +12,7 @@ const projects = (await getCollection('projects', ({ data }) => data.status === 
         <span class="index-label">§ 02 · Projects</span>
         <span class="index-label">{projects.length} project{projects.length === 1 ? '' : 's'}</span>
       </div>
-      <p style="color: var(--parchment); font-family: var(--font-body); font-size: 0.95rem; max-width: 60ch; margin: 1rem 0 2rem 0; line-height: 1.6;">I have questions about why things don't exist, so I build them to understand the problem better.</p>
+      <p style="color: var(--parchment); font-family: var(--font-body); font-size: 0.95rem; max-width: 60ch; margin: 1rem 0 2rem 0; line-height: 1.6;">Is this the next electricity, or the next blockchain? A workshop for thinking about AI without the faith-based investment thesis.</p>
       {projects.length === 0 ? (
         <p style="color: var(--parchment-muted); font-family: var(--font-body);">Build log opens with the first write-up.</p>
       ) : (
