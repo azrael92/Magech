@@ -73,7 +73,7 @@ a:hover { color: var(--parchment); }
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: 1.25rem 0;
+  padding: 0.75rem 0;
   background: rgba(18, 16, 14, 0.92);
   backdrop-filter: blur(8px) saturate(120%);
   -webkit-backdrop-filter: blur(8px) saturate(120%);
@@ -102,19 +102,22 @@ a:hover { color: var(--parchment); }
   white-space: nowrap;
 }
 .wordmark-logo {
-  height: 40px;
+  height: 52px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
 .wordmark-text {
-  background: rgba(18, 16, 14, 0.6);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  padding: 0.15em 0.4em 0.15em 0.25em;
+  /* Pull left so text starts near M's right leg (~60% into the 185px-wide logo) */
+  margin-left: -68px;
+  position: relative;
+  z-index: 1;
+  background: rgba(18, 16, 14, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 0.15em 0.45em 0.15em 0.3em;
   border-radius: 3px;
-  margin-left: -0.75rem;
-  border: 1px solid rgba(122, 108, 176, 0.18);
+  border: 1px solid rgba(122, 108, 176, 0.22);
 }
 .wordmark:hover { color: var(--parchment); }
 .wordmark .accent { color: var(--amethyst); }
