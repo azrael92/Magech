@@ -180,7 +180,7 @@ a:hover { color: var(--parchment); }
 .brand-accent { color: var(--amethyst-bright); }
 .hero-eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: calc(0.7rem + 3px);
   text-transform: uppercase;
   letter-spacing: 0.22em;
   color: var(--amethyst-deep);
@@ -834,10 +834,10 @@ a:hover { color: var(--parchment); }
   gap: 0.65rem;
   margin-bottom: 1.5rem;
 }
-.reel-logo { width: 20px; height: 20px; object-fit: contain; flex-shrink: 0; }
+.reel-logo { width: 23px; height: 23px; object-fit: contain; flex-shrink: 0; }
 .reel-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: calc(0.7rem + 3px);
   text-transform: uppercase;
   letter-spacing: 0.22em;
   color: var(--parchment-faded);
