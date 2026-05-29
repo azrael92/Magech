@@ -957,12 +957,21 @@ a:hover { color: var(--parchment); }
 
 @media (max-width: 768px) {
   .nav-inner {
-    padding: 0 1.25rem;
+    padding: 0 0.75rem 0.5rem;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.75rem;
   }
-  .nav-links { gap: 1.25rem; justify-content: flex-start; }
+  .wordmark {
+    font-size: calc(1.8rem + 2px);
+  }
+  .wordmark-logo {
+    height: 68px;
+  }
+  .wordmark-text {
+    margin-left: -84px;
+  }
+  .nav-links { gap: 1.25rem; justify-content: center; }
   .nav-link { font-size: 0.65rem; letter-spacing: 0.18em; }
   .hero { padding: 3.5rem 0 2rem; }
   .hero--slim { padding: 2.5rem 0 1.5rem; }
