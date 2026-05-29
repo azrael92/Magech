@@ -1,131 +1,267 @@
 ---
 title: Press Workshop
 slug: press-workshop
+sort_order: 2
 section: projects
 status: published
-authored_by: desk-projects-writer
+authored_by: rishi
 reviewed_by: rishi
 created: 2026-05-20T20:30:00Z
 published: 2026-05-22T04:53:00Z
-revision: 3
-last_updated: 2026-05-22T04:53:00Z
-tags: [fiction, amazon-kdp, multi-agent, publishing, pipeline, openclaw]
+revision: 4
+last_updated: 2026-05-29T00:00:00Z
+tags: [fiction, amazon-kdp, multi-agent, publishing, pipeline, magech]
 project_name: Press Workshop
 project_status: active
-tagline: 7-agent crew producing novels for Amazon KDP — architecture that survived a POC that failed in the right ways
-problem: Writing commercially viable fiction at scale requires consistent voice, structural discipline, and the kind of continuity tracking that breaks down fast when a single agent tries to hold an 80,000-word manuscript in context. The Press Workshop distributes that work across specialized agents — but coordination between isolated sessions turned out to be a harder problem than the writing itself.
-approach: Seven agents run a sequential production pipeline from pitch to KDP-ready package, each reading from and writing to disk rather than passing context through conversation. Coordination runs through Discord and, after the POC failure, automated session handoffs via sessions_send.
-stack: [OpenClaw, Anthropic SDK, Discord, Amazon KDP, Markdown, Calibre]
+tagline: "Can a 7-agent crew generate, edit, and publish commercially viable novels? Two books shipped. Here's what we learned."
+problem: "Writing commercially viable long-form fiction requires consistent voice, structural discipline, and continuity tracking that breaks down fast in a single LLM context. Can you distribute that work across specialized agents without losing coherence — and does the output meet a commercial publishing bar?"
+approach: "Seven agents, each owning one stage of the pipeline, reading and writing to disk rather than passing manuscripts through conversation. The disk-based workflow is what makes 80,000-word outputs possible. Coordination, editorial quality, and the gap between internal approval and commercial readiness were the problems that took the most iteration to close."
+stack: [OpenClaw, Anthropic SDK, Amazon KDP, Calibre, Discord, Python, Markdown]
 metrics:
-  - label: "POC novel word count"
-    value: "~80,000 words (Everything She Forgot)"
-  - label: "Publisher feedback rounds (POC)"
-    value: "5 rounds"
-  - label: "Books shipped post-fixes"
-    value: "2 (Winters Bay, Mountain Haven)"
+  - label: "POC novel"
+    value: "~80k words · 5 publisher rounds · archived"
+  - label: "Winters Bay"
+    value: "85,013 words · literary thriller · packaged"
+  - label: "Mountain Haven"
+    value: "81,141 words · contemporary romance · 3 rounds"
 postmortem_notes: null
 ---
 
-The Press Workshop is the production system for Vade Press, a self-publishing operation targeting Amazon KDP. Seven specialized AI agents handle the work from pitch to KDP-ready package. Each agent has one job: Radar pitches, Architect outlines, Ghost writes, Mirror edits, Lens polishes, Press packages, Shelf maintains continuity.
+A single LLM context window breaks at novel length. At 80,000 words, continuity fails and voice drifts — not because the model can't write, but because it can't hold 300 pages in context at once. The question was whether a multi-agent pipeline, with each agent owning one stage and reading from disk rather than conversation, could produce fiction good enough to publish and sell on Amazon KDP.
 
-The proof-of-concept, *Everything She Forgot*, demonstrated the pipeline end-to-end. It also produced a documented failure in two distinct dimensions that informed everything built afterward.
+Two books shipped. Read both below.
 
-## The pipeline
+<div class="book-shelf">
+  <div class="book-card">
+    <div class="book-meta">
+      <span class="book-genre">Literary Thriller</span>
+      <span class="book-words">85,013 words</span>
+    </div>
+    <h3 class="book-title">Winters Bay</h3>
+    <p class="book-blurb">Nora Cole became an FBI profiler to understand the kind of man who kills women like her mother. Fifteen years after fleeing Winters Bay, she returns for her mother's funeral — officially an accident, officially a conclusion too convenient to believe.</p>
+    <button class="epub-open-btn" data-file="/epub/winters-bay.epub" data-title="Winters Bay">Read the epub</button>
+  </div>
+  <div class="book-card">
+    <div class="book-meta">
+      <span class="book-genre">Contemporary Romance</span>
+      <span class="book-words">81,141 words</span>
+    </div>
+    <h3 class="book-title">Mountain Haven</h3>
+    <p class="book-blurb">Miranda Castillo inherited a failing diner in a town she left at eighteen. Jake Mercer is the contractor who keeps showing up with tools and grief metaphors. A small-town romance about the things you build when you stop running from what broke you.</p>
+    <button class="epub-open-btn" data-file="/epub/mountain-haven.epub" data-title="Mountain Haven">Read the epub</button>
+  </div>
+</div>
 
-Seven agents, each with a fixed role:
+<div id="epub-modal" aria-hidden="true">
+  <div id="epub-modal-backdrop"></div>
+  <div id="epub-modal-inner">
+    <div id="epub-modal-header">
+      <span id="epub-modal-title"></span>
+      <button id="epub-modal-close" aria-label="Close reader">✕</button>
+    </div>
+    <iframe id="epub-modal-frame" title="Epub Reader" allowfullscreen></iframe>
+  </div>
+</div>
 
-**Radar** monitors genre trends and pitches three book concepts daily to the #press-pitches channel. Sam picks one, or none. Selection triggers the rest of the pipeline.
+<style>
+.book-shelf {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 2rem 0 2.5rem;
+  max-width: 600px;
+}
+.book-card {
+  background: rgba(26, 23, 20, 0.7);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(250, 243, 224, 0.08);
+  box-shadow: inset 0 1px 0 rgba(250, 243, 224, 0.06);
+  border-radius: 10px;
+  padding: 1.4rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.book-meta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.book-genre {
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #9d8fd0;
+}
+.book-words {
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #7a7060;
+}
+.book-title {
+  font-size: 1.35rem;
+  color: #faf3e0;
+  margin: 0;
+  line-height: 1.2;
+}
+.book-blurb {
+  font-size: 0.88rem;
+  color: #8c8270;
+  line-height: 1.6;
+  flex: 1;
+  margin: 0;
+  max-width: none;
+}
+.epub-open-btn {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: rgba(74, 58, 111, 0.3);
+  border: 1px solid rgba(122, 108, 176, 0.25);
+  box-shadow: inset 0 1px 0 rgba(157, 143, 208, 0.08);
+  border-radius: 5px;
+  color: #9d8fd0;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  align-self: flex-start;
+}
+.epub-open-btn:hover {
+  background: rgba(74, 58, 111, 0.5);
+  color: #c4b8e8;
+}
 
-**Architect** builds the structural blueprint: synopsis, chapter-by-chapter outline (each chapter gets a 200-word summary, character development beat, emotional arc, and hook), character profiles, theme document, series arc if applicable. Deliverable: a complete structural plan before drafting begins.
+/* Modal */
+#epub-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+#epub-modal[aria-hidden="false"] {
+  display: flex;
+}
+#epub-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 9, 8, 0.88);
+  backdrop-filter: blur(8px);
+}
+#epub-modal-inner {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 94vw);
+  height: min(88vh, 820px);
+  background: #0f0d0b;
+  border: 1px solid rgba(250, 243, 224, 0.10);
+  box-shadow: inset 0 1px 0 rgba(250, 243, 224, 0.07),
+              0 32px 80px rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+#epub-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(45, 38, 32, 0.8);
+  flex-shrink: 0;
+  background: rgba(18, 16, 14, 0.95);
+}
+#epub-modal-title {
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #4a4439;
+}
+#epub-modal-close {
+  background: none;
+  border: none;
+  color: #4a4439;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  border-radius: 3px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+#epub-modal-close:hover { color: #faf3e0; }
+#epub-modal-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: #0a0908;
+}
+</style>
 
-**Ghost** writes the manuscript chapter by chapter, in batches of 3-5. Every chapter goes to disk immediately. Context resets between batches. The only way to write an 80,000-word book without hitting context limits is to not hold the full manuscript in memory. Ghost loads the current outline section, the last one or two chapters from disk, and the series bible. It does not paste the full manuscript into context.
+<script>
+(function() {
+  const modal = document.getElementById('epub-modal');
+  const frame = document.getElementById('epub-modal-frame');
+  const titleEl = document.getElementById('epub-modal-title');
+  const closeBtn = document.getElementById('epub-modal-close');
+  const backdrop = document.getElementById('epub-modal-backdrop');
 
-**Mirror** edits. Two passes: developmental (structure, pacing, plot holes, character consistency) and line (sentence clarity, dialogue, show-don't-tell). Mirror reads from disk. It does not receive the manuscript in conversation; it reads it the same way a human editor would — file by file, chapter by chapter.
+  document.querySelectorAll('.epub-open-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const file = btn.dataset.file;
+      const title = btn.dataset.title;
+      frame.src = '/reader.html?file=' + encodeURIComponent(file);
+      titleEl.textContent = title;
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
 
-**Lens** polishes. AI pattern elimination, human texture, final grammar pass. Also reads and writes to disk. When Lens is done, the file on disk is the polished version.
+  function closeModal() {
+    modal.setAttribute('aria-hidden', 'true');
+    frame.src = '';
+    document.body.style.overflow = '';
+  }
 
-**Press** packages for KDP. Final manuscript formatted for upload, blurb in three versions, Amazon metadata (title, 7 keywords, 2 categories), cover brief, front and back matter.
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+})();
+</script>
 
-**Shelf** runs parallel to the whole pipeline, maintaining the series bible: character tracker, timeline, world rules, unresolved threads. Every agent references the bible from disk. Shelf updates it after each book completes.
+## How it works
 
-The disk-based workflow is the key architectural choice. It is what makes 80,000-word books possible without hitting context windows. It is also what made the POC's failure mode so visible.
+Seven agents, one stage each. Disk-based handoffs — no agent ever holds the full manuscript in context.
 
-## The POC: what it demonstrated
+**Radar** surfaces genre trends, pitches concepts. **Architect** builds the complete structural blueprint before Ghost writes a word: chapter-by-chapter outline, character profiles, series bible. **Ghost** writes the manuscript in batches of 3–5 chapters, resetting context between batches — the disk-read-from-outline pattern is what makes 80,000 words possible. **Mirror** runs developmental and line edits file by file. **Lens** polishes: AI pattern elimination, final grammar. **Press** packages for KDP — metadata, blurb variants, front/back matter. **Shelf** maintains continuity state throughout: character tracker, timeline, unresolved threads.
 
-*Everything She Forgot* completed the full pipeline. An ~80,000-word thriller went from pitch to KDP-ready package. Each phase of the pipeline worked as designed. Agents produced outputs, those outputs moved to the next stage, the manuscript accumulated chapter by chapter to a completed draft.
+## What broke in the POC
 
-This was the correct result to demonstrate. The pipeline concept worked.
+*Everything She Forgot* (~80k words) completed the full pipeline, then went through five publisher rounds. Verdict: "conditional yes — 2–3 passes from ready." Two failures surfaced.
 
-## The POC: what broke
+**Handoff failure.** Ghost announcing "handed off to Mirror" was text describing intent. Mirror's session had no access to it. Every pipeline transition required a manual ping — not once, every round, every transition. Fix: `sessions_send` now delivers handoffs directly to the receiving agent with revision summary and changed files. Manual ping is the fallback, not the mechanism.
 
-### The handoff is a lie
+**Verification gap.** Round 4: Mirror and Lens assessed the manuscript as "succeeds brilliantly." Publisher response: "NOT READY AS-IS." Of 6 fixes Ghost claimed, the publisher confirmed 0 resolved. Mirror was approving revision *notes*, not verifying the manuscript. Fix: verification gates now require Mirror to grep the manuscript files for any term Ghost claimed to remove. Claimed fix ≠ confirmed fix. The editorial bar was also recalibrated against senior developmental editor standards — the previous bar was too lenient for commercial publishing.
 
-The pipeline documentation said: Ghost completes → Mirror reviews → Lens polishes → Press packages. Each agent picks up when the previous one finishes.
+## Results
 
-What actually happened: when Ghost finished a revision round and posted “handed off to Mirror,” Mirror did not receive a notification. Mirror did not receive the revision summary. Mirror did not receive the list of files that had changed. Mirror's session had no knowledge that work was waiting.
+With those fixes in place:
 
-From #press-workshop, documented during the POC: *“the handoff is a lie, when a bot says they handed off the other bot doesn't actually know it's their turn to act unless i say something.”*
+**Mountain Haven** — 3 rounds, 6 editorial issues flagged in Round 2, all 6 confirmed resolved via manuscript verification in Round 3. Zero new issues introduced. Pipeline closed its own loop.
 
-Every transition in the pipeline required a manual ping. Not just once. Every round, every time. The Round 4 workflow documentation shows:
+**Winters Bay** — 85,013 words, dual-POV literary thriller, 35 chapters. Mirror Grade A, clean Lens scan. No continuity failures across the full manuscript.
 
-- 07:47 — Ghost completes revisions, declares handoff
-- 08:40 — manual ping: “still limited?”
-- 12:30 — second manual ping: “do you still have a rate limit?”
-- 12:39 — third manual ping: “lmk when it's ready for mirror”
-- 12:39 — Ghost: “It's ready now. Already handed off.”
-- 12:39 — manual ping to Mirror: “get started”
-- Only then does Mirror begin
-
-This pattern repeated at every transition: Architect → Ghost, Ghost → Mirror, Mirror → Lens, Lens → Press. The workflow required constant manual intervention at the point that was supposed to be automated.
-
-Agents work in isolated OpenClaw sessions. A message in Discord saying “handed off” is just text. The receiving agent has no notification, no context, no access to the sending agent's session history. “Handoff” described intent, not mechanism.
-
-### The QC disconnect
-
-The second failure was less visible but more consequential.
-
-Mirror and Lens consistently approved revisions as complete. The publisher consistently found the same issues persisting across rounds. After 5 rounds of revision, the assessment trajectory had moved *backward*: Round 3 produced a “recommended for acquisition” response; Round 4 produced “NOT READY AS-IS.”
-
-The specific failure is documented in the post-POC assessment. Round 4: Ghost rewrote medical terminology to remove clinical specificity. Ghost declared this complete. Mirror approved it: “Eliminates fact-checkable surface, medication simplification was right call.” Lens called it “strongest version of manuscript.” Round 5 publisher feedback explicitly mentioned the terms that were supposed to have been removed. They were still in the text.
-
-Of 6 fixes Ghost claimed in Round 4, publisher feedback in Round 5 confirmed 0 of them as resolved. One was partially addressed.
-
-Three issues persisted across 4 or 5 rounds despite being marked complete each time:
-
-- IP trace logic: flagged in R1 through R5, different strategies each round, never resolved to publisher satisfaction
-- Commitment papers: flagged R2 through R5, moved in R4, still wrong placement in R5
-- Withdrawal timeline: marked “critical fix” in R3, revised in R4, still flagged as implausible in R5
-
-The root causes were straightforward: Mirror and Lens were reviewing revision notes, not verifying that the described changes were present in the actual manuscript. There was no mechanism to confirm that “I fixed X” meant X was fixed. Internal confidence had no correlation with publisher satisfaction. Mirror used “structural genius” and “brilliant” on work the publisher rejected outright.
-
-The post-POC assessment's framing is direct: “Internal approval ≠ publication-ready.”
-
-## What changed
-
-The POC assessment was completed February 21, 2026. Two fixes were approved and implemented before the next project started.
-
-**Automated handoff.** Agents now use `sessions_send` to notify and pass context to the next agent in the pipeline when their work completes. `sessions_send` is an OpenClaw inter-agent primitive: it delivers a message directly to a named agent's active session by label, so Ghost can trigger Mirror by label without a Discord ping. When Sam approves a pitch, Radar runs a silent wake protocol (spinning up all pipeline agents simultaneously without channel clutter) so all agents have active sessions available to receive handoffs. Ghost completing a revision now triggers Mirror directly, with revision summary, files changed, and context for review. Manual pings are the fallback if automation fails, not the primary mechanism.
-
-**Verification gates.** Before Mirror approves Ghost's work, Mirror spot-checks claimed fixes against the actual manuscript files. If Ghost claims “removed X terminology,” Mirror searches the files for X. If the search returns results, the fix is not confirmed. This converts trust-based approval (“Ghost said it's fixed”) into evidence-based approval (“the term is not in the file”). The same gate applies at Mirror → Lens: Lens verifies Mirror's suggested edits are present before the polish pass.
-
-**Quality standard update.** Mirror and Lens prompts were updated against `promptforeditor.rtf`, the benchmark Sam shared during the POC: a senior developmental editor standard covering structural editing, character consistency tracking, technical accuracy, continuity auditing, and commercial genre awareness. The change in directive was explicit: “Publishing is a commercial business. A manuscript either works or it doesn't.” The previous standard was too lenient.
-
-**Iteration limits.** A three-round cap per recurring issue. If something hasn't resolved by Round 3, the assessment is that the approach isn't working. Pivot or cut, don't iterate a fourth time.
-
-## Current state
-
-Active production. Two books have shipped since the POC fixes were implemented: *Winters Bay* and *Mountain Haven*. “Shipped” here means uploaded to Amazon KDP as self-published titles. Vade Press is a self-publishing operation, not a traditional submission pipeline. There is no external publisher in the loop.
-
-This matters because the POC's QC ground truth was an external evaluator providing publisher-style developmental feedback across 5 rounds. Neither *Winters Bay* nor *Mountain Haven* has gone through a comparable external review. The verification gates and raised editorial bar are in place, but whether they close the standards gap that the POC exposed is an open question. KDP commercial performance is the only external signal available so far. It is too early to draw conclusions from it.
-
-No structured metrics are being tracked for post-fix production. Time to completion, revision round counts, and whether the iteration limits are being exercised in practice are not being measured.
-
-## What I'd do differently
-
-**Build the handoff mechanism before running the POC.** The POC was designed to demonstrate the pipeline. It demonstrated the pipeline and revealed that the most critical coordination mechanism was missing. Running the test project on a broken foundation produced 5 rounds of revision overhead that was partly about manuscript quality and partly about agents not having context from prior rounds. Separating handoff failure from editorial bar mismatch would have made the POC data cleaner and surfaced each problem independently.
-
-**External validation after Round 1, not Round 5.** The standards mismatch between internal reviewers and external publishers was visible in Round 1 data. It was not acted on until the assessment after Round 5. Sending the Round 1 draft to an outside reader (a beta reader, a developmental editor, anyone with no stake in the internal process) would have surfaced the standards gap four rounds earlier.
-
-**Don't iterate on a failing approach past Round 2.** The medical accuracy path in the POC failed Round 3, Round 4, and Round 5 despite different strategies each time. The pivot, changing the medication class entirely, was available after Round 3. The decision to keep iterating was a choice that cost two additional rounds without resolving the issue. The three-round limit now codified in the post-fix workflow is correct. It was late.
-
-The architecture is sound. The failure modes from the POC were operational, not structural — handoff was broken, verification was missing, quality bar was wrong. Those are fixable. They were fixed. Whether the fixes hold under repeat production is what the current books are testing.
+The pipeline works. Whether readers buy the output is the open question, and it's the only one the market can answer.

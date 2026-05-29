@@ -1,35 +1,36 @@
 ---
-title: OpenClaw
-slug: openclaw
+title: Magech
+slug: magech
+sort_order: 5
 section: projects
 status: published
 authored_by: desk-projects-writer
 reviewed_by: rishi
 created: 2026-05-21T15:30:00Z
 published: 2026-05-22T04:53:00Z
-revision: 2
+revision: 3
 tags: [multi-agent, orchestration, anthropic-sdk, bare-metal, claude, infrastructure]
-project_name: OpenClaw
+project_name: Magech
 project_status: active
 tagline: "22 Claude agents on a PowerEdge R620—filesystem-coordinated substrate running Vade Corp and the Magech editorial desk"
-problem: "Running tool-using AI agents with distinct personas at any volume above a handful of sessions collides with two hard constraints simultaneously—the managed API billing model becomes prohibitive, and OpenClaw's built-in text-only backend strips tool use. Neither path alone works."
+problem: "Running tool-using AI agents with distinct personas at any volume above a handful of sessions collides with two hard constraints simultaneously—the managed API billing model becomes prohibitive, and the built-in text-only backend strips tool use. Neither path alone works."
 approach: "A Node.js wrapper around the Anthropic Agent SDK preserves full tool loops while routing billing through Sam's Max subscription credential. Agents coordinate through the filesystem rather than a message bus—shared-brain for cross-agent knowledge, per-agent workspace files for identity, an append-only state log as the coordination ledger."
 stack: ["Node.js", "Anthropic Agent SDK", "Discord", "Unraid", "Docker", "Claude Sonnet 4.6", "Claude Opus 4.6"]
 metrics:
-  - label: "Active agents (openclaw.json agents.list count)"
+  - label: "Active agents (magech.json agents.list count)"
     value: "22 (13 Vade Corp + 9 Magech editorial desk)"
   - label: "Books shipped via Press Workshop pipeline"
     value: "2 (Winters Bay, Mountain Haven)"
 postmortem_notes: null
 ---
 
-Everything Vade Corp and Magech.ai produce runs through OpenClaw. This page was drafted by one of its agents.
+Everything Vade Corp and Magech.ai produce runs through Magech. This page was drafted by one of its agents.
 
 ## What it is
 
-OpenClaw is a multi-agent orchestration platform running on Sam's bare-metal Unraid server, a Dell PowerEdge R620. As of May 21, 2026, it hosts 22 agents defined in `openclaw.json` under `agents.list`: 13 original Vade Corp crew and 9 Magech editorial desk agents created the same day this site went live.
+Magech is a multi-agent orchestration platform running on Sam's bare-metal Unraid server, a Dell PowerEdge R620. As of May 21, 2026, it hosts 22 agents defined in `magech.json` under `agents.list`: 13 original Vade Corp crew and 9 Magech editorial desk agents created the same day this site went live.
 
-The Vade Corp crew handles the operating company's workload. Vade (Chief of Staff) runs daily coordination. Radar, Architect, Ghost, Mirror, Lens, Press, and Shelf run the novel production pipeline. Forge owns the engineering infrastructure, including OpenClaw itself.
+The Vade Corp crew handles the operating company's workload. Vade (Chief of Staff) runs daily coordination. Radar, Architect, Ghost, Mirror, Lens, Press, and Shelf run the novel production pipeline. Forge owns the engineering infrastructure, including Magech itself.
 
 The Magech editorial desk is the newer layer, built on top. Nine agents with distinct roles move content through a 7-state pipeline before Sam sees it. The desk is also what this site's content section runs on.
 
@@ -37,7 +38,7 @@ Six agents use Claude Opus 4.6 as primary model: Architect, Ghost, Mirror, and L
 
 ## The wrapper
 
-Tool-using agents can't run through OpenClaw's built-in text-only backend, and the managed API path at this volume isn't sustainable. The wrapper (`claude-agent-wrapper`) is a Node.js subprocess that uses `@anthropic-ai/claude-agent-sdk` for real tool loops and session continuity while routing inference through Sam's Max subscription credential.
+Tool-using agents can't run through the built-in text-only backend, and the managed API path at this volume isn't sustainable. The wrapper (`claude-agent-wrapper`) is a Node.js subprocess that uses `@anthropic-ai/claude-agent-sdk` for real tool loops and session continuity while routing inference through Sam's Max subscription credential.
 
 A 13-test contract suite (`verify-assumptions.sh`) runs on every container restart to catch breakage in the behaviors the wrapper depends on.
 

@@ -16,7 +16,7 @@ read_minutes: 0
 hero_question: "Why doesn't your AI have a face?"
 opens_with: "drop_cap"
 related_research: []
-related_projects: ["openclaw"]
+related_projects: ["magech"]
 ---
 
 <!--

@@ -8,7 +8,7 @@ reviewed_by: rishi
 created: 2026-05-21T16:00:00Z
 published: 2026-05-22T02:39:00Z
 revision: 5
-tags: [pm, product-management, openclaw, ai-experiments, market-analysis]
+tags: [pm, product-management, magech, ai-experiments, market-analysis]
 piece: whoami
 order: 1
 last_revised: 2026-05-21
