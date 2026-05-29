@@ -98,7 +98,7 @@ a:hover { color: var(--parchment); }
   font-variation-settings: "SOFT" 30, "opsz" 14;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.1rem;
   white-space: nowrap;
 }
 .wordmark-logo {
