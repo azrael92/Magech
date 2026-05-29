@@ -153,8 +153,16 @@ a:hover { color: var(--parchment); }
 .nav-link.active { color: var(--amethyst); }
 
 /* ---------- HERO ---------- */
-.hero { padding: 7rem 0 4rem; position: relative; z-index: 2; }
+.hero { padding: 5rem 0 4rem; position: relative; z-index: 2; }
 .hero-inner { max-width: 64rem; margin: 0 auto; padding: 0 2rem; }
+.hero-logo {
+  display: block;
+  max-width: min(680px, 90%);
+  width: 100%;
+  height: auto;
+  margin: 0 auto 2.5rem;
+  filter: drop-shadow(0 8px 40px rgba(122, 108, 176, 0.25));
+}
 .hero-eyebrow {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -511,6 +519,7 @@ a:hover { color: var(--parchment); }
   .nav-link { font-size: 0.65rem; letter-spacing: 0.18em; }
   .hero { padding: 3.5rem 0 2rem; }
   .hero-inner, .index-inner, .footer-inner { padding: 0 1.25rem; }
+  .hero-logo { max-width: 100%; margin-bottom: 2rem; }
   .hero-title { font-size: clamp(2rem, 9vw, 3rem); max-width: 100%; }
   .hero-sub { font-size: 1.1rem; }
   .thesis-inner, .essay-inner { padding: 0 1.25rem; }
