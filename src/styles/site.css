@@ -109,7 +109,7 @@ a:hover { color: var(--parchment); }
   flex-shrink: 0;
 }
 .wordmark-text {
-  margin-left: -80px;
+  margin-left: -96px;
   position: relative;
   z-index: 1;
   text-shadow:
@@ -183,7 +183,7 @@ a:hover { color: var(--parchment); }
   font-size: calc(0.7rem + 3px);
   text-transform: uppercase;
   letter-spacing: 0.22em;
-  color: var(--amethyst-bright);
+  color: #cbbfe6;
   margin: 0 0 1.75rem 0;
 }
 .hero-title {
@@ -996,7 +996,7 @@ a:hover { color: var(--parchment); }
     height: 68px;
   }
   .wordmark-text {
-    margin-left: -84px;
+    margin-left: -100px;
   }
   .nav-links { gap: 1.25rem; justify-content: center; }
   .nav-link { font-size: 0.65rem; letter-spacing: 0.18em; }
