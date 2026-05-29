@@ -2,52 +2,62 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const ns = (await getCollection('negative-space', ({ data }) => data.status === 'published'))
-  .sort((a, b) => b.data.issue_number - a.data.issue_number);
-const latest = ns[0];
+const projects = (await getCollection('projects', ({ data }) => data.status === 'published'))
+  .sort((a, b) => a.data.sort_order - b.data.sort_order);
 
-// pull the whoami About piece if published, to surface a teaser on the home page
 const aboutPieces = (await getCollection('about', ({ data }) => data.status === 'published' && data.piece === 'whoami'));
 const whoami = aboutPieces[0] ?? null;
+
+// Visual config per project — update when a new project ships
+const visuals: Record<string, { gradient: string; accent: string; glyph: string }> = {
+  'the-felt':       { gradient: 'linear-gradient(145deg, #0d3520 0%, #1a5c32 55%, #0a2a18 100%)', accent: '#2d8a50', glyph: '♠' },
+  'press-workshop': { gradient: 'linear-gradient(145deg, #2c1a06 0%, #4a2e10 55%, #1a0f03 100%)', accent: '#c8812a', glyph: '✦' },
+  'streammesh':     { gradient: 'linear-gradient(145deg, #071528 0%, #0f2545 55%, #040e1e 100%)', accent: '#2a6aad', glyph: '⧉' },
+  'manga-mines':    { gradient: 'linear-gradient(145deg, #151515 0%, #282828 50%, #1a0508 100%)', accent: '#c41c1c', glyph: '◈' },
+  'magech':         { gradient: 'linear-gradient(145deg, #1a1005 0%, #2d1e08 55%, #110b02 100%)', accent: '#c8912a', glyph: '⬡' },
+};
+function vis(slug: string) {
+  return visuals[slug] ?? { gradient: 'linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%)', accent: '#7a6cb0', glyph: '◆' };
+}
 ---
 <BaseLayout>
-  <section class="hero">
+  <!-- Slim tagline hero -->
+  <section class="hero hero--slim">
     <div class="hero-inner">
-      <p class="hero-eyebrow">{latest ? `Issue ${String(latest.data.issue_number).padStart(2, '0')} · Workshop notes` : 'Workshop notes'}</p>
-      <h1 class="hero-title">Every technology is <span class="accent">magic</span> until we get used to it.</h1>
-      <p class="hero-sub">A workshop for tinkering with tech and AI without taking the magic for granted.</p>
+      <p class="hero-eyebrow">Workshop notes</p>
+      <p class="hero-tagline">Every technology is <span class="accent">magic</span> until we get used to it. A workshop for tinkering with tech and AI without taking the magic for granted.</p>
     </div>
   </section>
 
-  <section class="index">
-    <div class="index-inner">
-      <div class="index-header">
-        <span class="index-label">The Workshop · Sections</span>
-        <span class="index-label">{new Date().toLocaleString('default', { month: 'long' })}, MMXXVI</span>
+  <!-- Project highlight reel -->
+  <section class="reel">
+    <div class="reel-inner">
+      <div class="reel-header">
+        <img src="/brand/logo-icon.png" alt="" class="reel-logo" width="20" height="20" />
+        <span class="reel-label">Active projects</span>
+        <a href="/projects/" class="reel-all">All →</a>
       </div>
-      <div class="index-grid">
-        <a href="/negative-space/" class="index-card">
-          <div class="card-num">§ 01</div>
-          <h3 class="card-title">Negative Space</h3>
-          <p class="card-desc">What we're building but not talking about. Monthly essays on the things the industry quietly chose to ignore.</p>
-          <div class="card-meta">{latest ? `Issue ${String(latest.data.issue_number).padStart(2, '0')} → ${latest.data.title}` : 'In the workshop'}</div>
-        </a>
-        <a href="/projects/" class="index-card">
-          <div class="card-num">§ 02</div>
-          <h3 class="card-title">Projects</h3>
-          <p class="card-desc">Magech, StreamMesh, Press Workshop. Build log for real systems, with the learnings from building them.</p>
-          <div class="card-meta">In construction</div>
-        </a>
-        <a href="/about/" class="index-card">
-          <div class="card-num">§ 03</div>
-          <h3 class="card-title">About</h3>
-          <p class="card-desc">Who runs this workshop. Why it's public. What it's trying to add to the conversation.</p>
-          <div class="card-meta">Three short pieces</div>
-        </a>
+      <div class="reel-track">
+        {projects.map(p => {
+          const v = vis(p.slug);
+          return (
+            <a href={`/projects/${p.slug}/`} class="reel-card">
+              <div class="reel-card-visual" style={`background: ${v.gradient};`}>
+                <span class="reel-card-glyph" style={`color: ${v.accent};`}>{v.glyph}</span>
+              </div>
+              <div class="reel-card-body">
+                <span class="reel-card-status" data-status={p.data.project_status}>{p.data.project_status}</span>
+                <h3 class="reel-card-name">{p.data.project_name}</h3>
+                <p class="reel-card-tag">{p.data.tagline}</p>
+              </div>
+            </a>
+          );
+        })}
       </div>
     </div>
   </section>
 
+  <!-- About teaser -->
   <section class="essay-preview" style="padding: 4rem 0 5rem; background: var(--ink-void); border-top: 1px solid var(--ink-rule); position: relative; z-index: 2;">
     <article class="essay-inner">
       <div class="essay-meta">
