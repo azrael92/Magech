@@ -3,7 +3,7 @@ title: Magech.ai
 slug: magech-itself
 sort_order: 5
 section: projects
-status: published
+status: retired
 authored_by: desk-projects-writer
 reviewed_by: null
 created: 2026-05-20T19:30:00Z
