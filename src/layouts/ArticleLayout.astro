@@ -13,6 +13,7 @@ interface Props {
   embedNote?: string | null;
 }
 const { title, deck, meta = [], activeSection = null, opensWith, authoredBy, reviewedBy, embedUrl, embedNote } = Astro.props;
+const brandify = (name: string) => name.replace('MESH', '<span class="brand-accent">MESH</span>');
 const bodyClass = opensWith === 'drop_cap' ? 'essay-body drop-cap' : 'essay-body';
 const isVideo = embedUrl ? /\.(webm|mp4|ogg)$/i.test(embedUrl) : false;
 ---
@@ -29,7 +30,7 @@ const isVideo = embedUrl ? /\.(webm|mp4|ogg)$/i.test(embedUrl) : false;
           ))}
         </div>
       )}
-      <h1 class="essay-title">{title}</h1>
+      <h1 class="essay-title" set:html={brandify(title)} />
       {deck && <p class="essay-deck">{deck}</p>}
       {embedUrl ? (
         <div class="project-embed">
@@ -43,7 +44,7 @@ const isVideo = embedUrl ? /\.(webm|mp4|ogg)$/i.test(embedUrl) : false;
                 muted
                 autoplay
                 playsinline
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:top;background:#0a0908;display:block;"
               />
             ) : (
               <iframe

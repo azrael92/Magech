@@ -1,6 +1,7 @@
 ---
 title: The Felt
 slug: the-felt
+sort_order: 1
 section: projects
 status: published
 authored_by: rishi
