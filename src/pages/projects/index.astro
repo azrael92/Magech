@@ -13,7 +13,7 @@ const brandify = (name: string) => name.replace('MESH', '<span class="brand-acce
         <span class="index-label">§ 02 · Projects</span>
         <span class="index-label">{projects.length} project{projects.length === 1 ? '' : 's'}</span>
       </div>
-      <p style="color: var(--parchment); font-family: var(--font-body); font-size: 0.95rem; max-width: 60ch; margin: 1rem 0 2rem 0; line-height: 1.6;">Hypothesis: most AI demos don't survive contact with real infrastructure.</p>
+      <p class="hero-sub" style="margin: 1rem 0 2rem 0;">Hypothesis: most AI demos don't survive contact with real infrastructure.</p>
       {projects.length === 0 ? (
         <p style="color: var(--parchment-muted); font-family: var(--font-body);">Build log opens with the first write-up.</p>
       ) : (
