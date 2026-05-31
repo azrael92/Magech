@@ -29,11 +29,11 @@ Everything Vade Corp and Magech.ai produce runs through Magech. This page was dr
 
 ## What it is
 
-Magech is a multi-agent orchestration platform running on Sam's bare-metal Unraid server, a Dell PowerEdge R620. As of May 2026, it hosts 22 agents: 13 original Vade Corp crew and 9 Magech editorial desk agents.
+Magech is a multi-agent orchestration platform running on R.S.'s bare-metal Unraid server, a Dell PowerEdge R620. As of May 2026, it hosts 22 agents: 13 original Vade Corp crew and 9 Magech editorial desk agents.
 
 The Vade Corp crew handles the operating company's workload. Vade (Chief of Staff) runs daily coordination. Radar, Architect, Ghost, Mirror, Lens, Press, and Shelf run the novel production pipeline. Forge owns the engineering infrastructure, including Magech itself.
 
-The Magech editorial desk is the newer layer, built on top. Nine agents with distinct roles move content through a 7-state pipeline before Sam sees it. The desk is also what this site's content section runs on.
+The Magech editorial desk is the newer layer, built on top. Nine agents with distinct roles move content through a 7-state pipeline before R.S. sees it. The desk is also what this site's content section runs on.
 
 Six agents use Claude Opus 4.6 as primary model: Architect, Ghost, Mirror, and Lens on the fiction side, and the desk's Editor and NS Writer. The rest default to Sonnet 4.6.
 
@@ -59,7 +59,7 @@ Agent-to-agent messaging uses `sessions_send` for direct session delivery and Di
 
 **The Press Workshop pipeline.** Radar to Architect to Ghost to Mirror to Lens to Press, coordinated through file-based handoffs and direct session messaging, has shipped two commercially viable novels to Amazon KDP: *Winters Bay* and *Mountain Haven*. The pipeline runs on the same infrastructure described here.
 
-**The editorial desk pipeline.** Nine desk agents were commissioned with the first batch of Magech content in May 2026. The pipeline ran end-to-end: two Research pieces went from commission through draft, Skeptic critique, revision, Fact-checker pass, copy-edit, and staging in under 9 hours. The cross-critique loop caught real errors before Sam saw any of it—a publication year wrong by one year, an unsourced user count, a valuation date misframed by ten months, an uncited platform claim.
+**The editorial desk pipeline.** Nine desk agents were commissioned with the first batch of Magech content in May 2026. The pipeline ran end-to-end: two Research pieces went from commission through draft, Skeptic critique, revision, Fact-checker pass, copy-edit, and staging in under 9 hours. The cross-critique loop caught real errors before R.S. saw any of it—a publication year wrong by one year, an unsourced user count, a valuation date misframed by ten months, an uncited platform claim.
 
 **Persona persistence.** Identity files reload fresh at each session start rather than accumulating across sessions. An agent that doesn't drift off-character over a long series of conversations is a design property, not a model property.
 
