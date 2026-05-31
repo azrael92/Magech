@@ -15,6 +15,16 @@ interface Props {
 const { title, deck, meta = [], activeSection = null, opensWith, authoredBy, reviewedBy, embedUrl, embedNote } = Astro.props;
 const brandify = (name: string) => name.replace('MESH', '<span class="brand-accent">MESH</span>');
 const bodyClass = opensWith === 'drop_cap' ? 'essay-body drop-cap' : 'essay-body';
+const displayAuthor = (name: string) => {
+  const map: Record<string, string> = {
+    'rishi': 'R.S.',
+    'desk-projects-writer': 'Magech desk',
+    'rishi-and-desk-overview-writer': 'R.S. + Magech desk',
+    'rishi-and-negative-space-agent-v1': 'R.S. + Magech desk',
+  };
+  return map[name] ?? name;
+};
+const displayReviewer = (name: string) => name === 'rishi' ? 'R.S.' : name;
 const isVideo = embedUrl ? /\.(webm|mp4|ogg)$/i.test(embedUrl) : false;
 ---
 <BaseLayout title={`${title} · Magech`} activeSection={activeSection}>
@@ -68,9 +78,9 @@ const isVideo = embedUrl ? /\.(webm|mp4|ogg)$/i.test(embedUrl) : false;
       )}
       {(authoredBy || reviewedBy) && (
         <div class="essay-meta" style="margin: 0;">
-          {authoredBy && <span>Authored by {authoredBy}</span>}
+          {authoredBy && <span>Authored by {displayAuthor(authoredBy)}</span>}
           {authoredBy && reviewedBy && <span class="sep">·</span>}
-          {reviewedBy && <span>Reviewed by {reviewedBy === 'rishi' ? 'R.S.' : reviewedBy}</span>}
+          {reviewedBy && <span>Reviewed by {displayReviewer(reviewedBy)}</span>}
         </div>
       )}
     </article>
