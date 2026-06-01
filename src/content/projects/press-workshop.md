@@ -336,51 +336,59 @@ function openEpub(file, title) {
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 
-  const book = window.ePub(file);
-  currentBook = book;
+  // Wait for the browser to lay out the modal before epubjs reads dimensions.
+  // renderTo() needs the container to have real pixel size; calling it before
+  // layout completes leaves the viewer 0×0 and manager never initializes.
+  requestAnimationFrame(() => {
+    const w = viewerEl.clientWidth  || viewerEl.offsetWidth  || 800;
+    const h = viewerEl.clientHeight || viewerEl.offsetHeight || 600;
 
-  const rendition = book.renderTo('epub-viewer', {
-    width:   '100%',
-    height:  '100%',
-    spread:  'none',
-    flow:    'paginated',
-    manager: 'default',
+    const book = window.ePub(file);
+    currentBook = book;
+
+    const rendition = book.renderTo(viewerEl, {
+      width:   w,
+      height:  h,
+      spread:  'none',
+      flow:    'paginated',
+      manager: 'default',
+    });
+    currentRendition = rendition;
+
+    rendition.themes.register('dark', {
+      'html': { 'background': '#0a0908 !important', 'color': '#faf3e0 !important' },
+      'body': {
+        'background': '#0a0908 !important',
+        'color': '#faf3e0 !important',
+        'font-family': 'Georgia, serif !important',
+        'line-height': '1.72 !important',
+        'padding': '2rem 2.5rem !important',
+        'max-width': '680px',
+        'margin': '0 auto !important',
+      },
+      'p':          { 'color': '#e8dfc8 !important', 'margin-bottom': '1.1em !important' },
+      'h1, h2, h3': { 'color': '#faf3e0 !important', 'margin-top': '1.8em !important' },
+      'a':          { 'color': '#9d8fd0 !important' },
+    });
+    rendition.themes.select('dark');
+
+    rendition.display().then(() => {
+      loading.classList.add('hidden');
+    }).catch(() => {
+      loading.classList.add('hidden');
+      errorEl.style.display = 'flex';
+    });
+
+    book.ready.then(() => book.locations.generate(1000)).then(updateProgress);
+    rendition.on('relocated', updateProgress);
+
+    function updateProgress() {
+      const loc = rendition.currentLocation();
+      if (!loc || !loc.start) return;
+      const pct = book.locations.percentageFromCfi(loc.start.cfi);
+      if (pct !== undefined) progressEl.textContent = Math.round(pct * 100) + '%';
+    }
   });
-  currentRendition = rendition;
-
-  rendition.themes.register('dark', {
-    'html': { 'background': '#0a0908 !important', 'color': '#faf3e0 !important' },
-    'body': {
-      'background': '#0a0908 !important',
-      'color': '#faf3e0 !important',
-      'font-family': 'Georgia, serif !important',
-      'line-height': '1.72 !important',
-      'padding': '2rem 2.5rem !important',
-      'max-width': '680px',
-      'margin': '0 auto !important',
-    },
-    'p':          { 'color': '#e8dfc8 !important', 'margin-bottom': '1.1em !important' },
-    'h1, h2, h3': { 'color': '#faf3e0 !important', 'margin-top': '1.8em !important' },
-    'a':          { 'color': '#9d8fd0 !important' },
-  });
-  rendition.themes.select('dark');
-
-  rendition.display().then(() => {
-    loading.classList.add('hidden');
-  }).catch(() => {
-    loading.classList.add('hidden');
-    errorEl.style.display = 'flex';
-  });
-
-  book.ready.then(() => book.locations.generate(1000)).then(updateProgress);
-  rendition.on('relocated', updateProgress);
-
-  function updateProgress() {
-    const loc = rendition.currentLocation();
-    if (!loc || !loc.start) return;
-    const pct = book.locations.percentageFromCfi(loc.start.cfi);
-    if (pct !== undefined) progressEl.textContent = Math.round(pct * 100) + '%';
-  }
 }
 
 function closeModal() {
