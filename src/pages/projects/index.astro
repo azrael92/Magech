@@ -13,7 +13,11 @@ const brandify = (name: string) => name.replace('MESH', '<span class="brand-acce
         <span class="index-label">§ 02 · Projects</span>
         <span class="index-label">{projects.length} project{projects.length === 1 ? '' : 's'}</span>
       </div>
-      <p class="hero-sub" style="margin: 1rem 0 2rem 0;">Hypothesis: AI raises competition faster than it raises demand. The alpha is in the exceptions.</p>
+      <div class="hypothesis-block" style="margin: 1rem 0 2.5rem 0;">
+        <span class="hyp-label">HYPOTHESIS</span>
+        <p class="hyp-thesis">AI raises competition faster than it raises demand.</p>
+        <p class="hyp-conclusion">The alpha is in the exceptions.</p>
+      </div>
       {projects.length === 0 ? (
         <p style="color: var(--parchment-muted); font-family: var(--font-body);">Build log opens with the first write-up.</p>
       ) : (
@@ -31,3 +35,42 @@ const brandify = (name: string) => name.replace('MESH', '<span class="brand-acce
     </div>
   </section>
 </BaseLayout>
+
+<style>
+.hypothesis-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 52rem;
+}
+.hyp-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--parchment-faded);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+.hyp-thesis {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--parchment);
+  margin: 0;
+  font-variation-settings: var(--fraunces-body);
+}
+.hyp-conclusion {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--parchment-muted);
+  margin: 0;
+  font-variation-settings: var(--fraunces-body);
+}
+@media (max-width: 640px) {
+  .hyp-thesis, .hyp-conclusion { font-size: 1.05rem; }
+}
+</style>
