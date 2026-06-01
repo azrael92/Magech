@@ -59,7 +59,16 @@ Two books shipped. Read both below.
       <span id="epub-modal-title"></span>
       <button id="epub-modal-close" aria-label="Close reader">✕</button>
     </div>
-    <iframe id="epub-modal-frame" title="Epub Reader" allowfullscreen></iframe>
+    <div id="epub-modal-toolbar">
+      <button class="epub-nav-btn" id="epub-btn-prev">← Prev</button>
+      <span id="epub-progress"></span>
+      <button class="epub-nav-btn" id="epub-btn-next">Next →</button>
+    </div>
+    <div id="epub-viewer-wrap">
+      <div id="epub-loading">opening book…</div>
+      <div id="epub-error">Could not load the epub. Check the file path.</div>
+      <div id="epub-viewer"></div>
+    </div>
   </div>
 </div>
 
@@ -201,45 +210,197 @@ Two books shipped. Read both below.
   transition: color 0.15s;
 }
 #epub-modal-close:hover { color: #faf3e0; }
-#epub-modal-frame {
+#epub-modal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(45, 38, 32, 0.6);
+  flex-shrink: 0;
+  background: rgba(15, 13, 11, 0.95);
+  gap: 1rem;
+}
+.epub-nav-btn {
+  background: rgba(74, 58, 111, 0.25);
+  border: 1px solid rgba(122, 108, 176, 0.2);
+  color: #9d8fd0;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.epub-nav-btn:hover { background: rgba(74, 58, 111, 0.45); color: #c4b8e8; }
+.epub-nav-btn:disabled { opacity: 0.3; cursor: default; }
+#epub-progress {
+  font-size: 0.72rem;
+  color: #4a4439;
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
   flex: 1;
+  text-align: center;
+}
+#epub-viewer-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+#epub-viewer {
   width: 100%;
-  border: none;
+  height: 100%;
+}
+#epub-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #0a0908;
+  color: #4a4439;
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  letter-spacing: 0.12em;
+  z-index: 2;
+}
+#epub-loading.hidden { display: none; }
+#epub-error {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: #0a0908;
+  color: #9d8fd0;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem;
+  z-index: 2;
 }
 </style>
 
-<script>
-(function() {
-  const modal = document.getElementById('epub-modal');
-  const frame = document.getElementById('epub-modal-frame');
-  const titleEl = document.getElementById('epub-modal-title');
-  const closeBtn = document.getElementById('epub-modal-close');
-  const backdrop = document.getElementById('epub-modal-backdrop');
-
-  document.querySelectorAll('.epub-open-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const file = btn.dataset.file;
-      const title = btn.dataset.title;
-      frame.src = '/reader/?file=' + encodeURIComponent(file);
-      titleEl.textContent = title;
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    });
+<script type="module">
+// Load epubjs and jszip from CDN, then wire up the modal.
+// Using type="module" so Astro treats this as a module script and
+// defers execution until after the DOM is ready.
+async function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
   });
+}
 
-  function closeModal() {
-    modal.setAttribute('aria-hidden', 'true');
-    frame.src = '';
-    document.body.style.overflow = '';
+await loadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js');
+await loadScript('https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js');
+
+const modal    = document.getElementById('epub-modal');
+const titleEl  = document.getElementById('epub-modal-title');
+const closeBtn = document.getElementById('epub-modal-close');
+const backdrop = document.getElementById('epub-modal-backdrop');
+const loading  = document.getElementById('epub-loading');
+const errorEl  = document.getElementById('epub-error');
+const viewerEl = document.getElementById('epub-viewer');
+const progressEl = document.getElementById('epub-progress');
+const btnPrev  = document.getElementById('epub-btn-prev');
+const btnNext  = document.getElementById('epub-btn-next');
+
+// Portal modal to body so it escapes any ancestor stacking context
+// (e.g. .essay with position + z-index) and sits above the sticky nav.
+document.body.appendChild(modal);
+
+let currentBook = null;
+let currentRendition = null;
+
+function resetViewer() {
+  if (currentRendition) {
+    try { currentRendition.destroy(); } catch(e) {}
+    currentRendition = null;
   }
+  if (currentBook) {
+    try { currentBook.destroy(); } catch(e) {}
+    currentBook = null;
+  }
+  viewerEl.innerHTML = '';
+  loading.classList.remove('hidden');
+  errorEl.style.display = 'none';
+  progressEl.textContent = '';
+}
 
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', closeModal);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
+function openEpub(file, title) {
+  resetViewer();
+  titleEl.textContent = title;
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  const book = window.ePub(file);
+  currentBook = book;
+
+  const rendition = book.renderTo('epub-viewer', {
+    width:   '100%',
+    height:  '100%',
+    spread:  'none',
+    flow:    'paginated',
+    manager: 'default',
   });
-})();
+  currentRendition = rendition;
+
+  rendition.themes.register('dark', {
+    'html': { 'background': '#0a0908 !important', 'color': '#faf3e0 !important' },
+    'body': {
+      'background': '#0a0908 !important',
+      'color': '#faf3e0 !important',
+      'font-family': 'Georgia, serif !important',
+      'line-height': '1.72 !important',
+      'padding': '2rem 2.5rem !important',
+      'max-width': '680px',
+      'margin': '0 auto !important',
+    },
+    'p':          { 'color': '#e8dfc8 !important', 'margin-bottom': '1.1em !important' },
+    'h1, h2, h3': { 'color': '#faf3e0 !important', 'margin-top': '1.8em !important' },
+    'a':          { 'color': '#9d8fd0 !important' },
+  });
+  rendition.themes.select('dark');
+
+  rendition.display().then(() => {
+    loading.classList.add('hidden');
+  }).catch(() => {
+    loading.classList.add('hidden');
+    errorEl.style.display = 'flex';
+  });
+
+  book.ready.then(() => book.locations.generate(1000)).then(updateProgress);
+  rendition.on('relocated', updateProgress);
+
+  function updateProgress() {
+    const loc = rendition.currentLocation();
+    if (!loc || !loc.start) return;
+    const pct = book.locations.percentageFromCfi(loc.start.cfi);
+    if (pct !== undefined) progressEl.textContent = Math.round(pct * 100) + '%';
+  }
+}
+
+function closeModal() {
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  resetViewer();
+}
+
+document.querySelectorAll('.epub-open-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    openEpub(btn.dataset.file, btn.dataset.title);
+  });
+});
+
+closeBtn.addEventListener('click', closeModal);
+backdrop.addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+btnPrev.addEventListener('click', () => currentRendition && currentRendition.prev());
+btnNext.addEventListener('click', () => currentRendition && currentRendition.next());
 </script>
 
 ## How it works
