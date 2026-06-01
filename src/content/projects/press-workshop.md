@@ -39,7 +39,7 @@ Two books shipped. Read both below.
     </div>
     <h3 class="book-title">Winters Bay</h3>
     <p class="book-blurb">Nora Cole became an FBI profiler to understand the kind of man who kills women like her mother. Fifteen years after fleeing Winters Bay, she returns for her mother's funeral — officially an accident, officially a conclusion too convenient to believe.</p>
-    <a class="epub-open-btn" href="/reader.html?file=%2Fepub%2Fwinters-bay.epub" target="_blank" rel="noopener">Read the epub ↗</a>
+    <a class="epub-open-btn" href="/reader/?file=%2Fepub%2Fwinters-bay.epub" target="_blank" rel="noopener">Read the epub ↗</a>
   </div>
   <div class="book-card">
     <div class="book-meta">
@@ -48,7 +48,7 @@ Two books shipped. Read both below.
     </div>
     <h3 class="book-title">Mountain Haven</h3>
     <p class="book-blurb">Miranda Castillo inherited a failing diner in a town she left at eighteen. Jake Mercer is the contractor who keeps showing up with tools and grief metaphors. A small-town romance about the things you build when you stop running from what broke you.</p>
-    <a class="epub-open-btn" href="/reader.html?file=%2Fepub%2Fmountain-haven.epub" target="_blank" rel="noopener">Read the epub ↗</a>
+    <a class="epub-open-btn" href="/reader/?file=%2Fepub%2Fmountain-haven.epub" target="_blank" rel="noopener">Read the epub ↗</a>
   </div>
 </div>
 
